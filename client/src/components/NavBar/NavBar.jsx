@@ -1,8 +1,8 @@
 /** @format */
 
 import React, { useState, navRef } from "react"
-import { RiMenuLine } from "react-icons/Ri"
-import { RiCloseFill } from "react-icons/Ri"
+import { RiMenuLine } from "../../../node_modules/react-icons/ri"
+import { RiCloseFill } from "../../../node_modules/react-icons/ri"
 
 const menuItems = [
 	{ name: "Home", link: "/" },
