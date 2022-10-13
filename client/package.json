@@ -44,5 +44,11 @@
 		"react-tsparticles": "^2.3.3",
 		"react-typist": "^2.0.5",
 		"tsparticles": "^2.3.4"
+	},
+	"engines": {
+		"npm": ">=8.7.0"
+	},
+	"overrides": {
+		"react": "$react"
 	}
 }
