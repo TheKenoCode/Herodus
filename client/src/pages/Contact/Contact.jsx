@@ -54,7 +54,7 @@ const Contact = () => {
 		<div className='text-white  '>
 			<NavBar />
 			<section className='h-screen flex-col flex  bg-contact-bg  p-5  bg-center bg-no-repeat bg-cover border-[#e6bc6a] border-t-4 justify-center items-center'>
-				<div className=' bg-black bg-opacity-60  w-full border-[#e6bc6a] border-2 lg:w-[800px]'>
+				<div className=' bg-black bg-opacity-60 h-max w-full border-[#e6bc6a] border-2 lg:w-[800px] rounded-3xl'>
 					<h1 className='text-4xl font-bold text-center p-5'>Contact us</h1>
 
 					<form

@@ -10,6 +10,7 @@ import NFT from "./pages/NFTs/NFT"
 import Login from "./pages/UserPages/Login/Login"
 import Register from "./pages/UserPages/Register/Register"
 import UserHome from "./pages/UserPages/UserHome/UserHome"
+import NotFound from "./pages/NotFound/NotFound"
 const App = () => {
 	return (
 		<Routes>
@@ -19,7 +20,8 @@ const App = () => {
 			<Route path='/NFTs' element={<NFT />} />
 			<Route path='/Login' element={<Login />} />
 			<Route path='/Register' element={<Register />} />
-			<Route path='/UserHome' element={<UserHome />} />
+			<Route path='/' element={<UserHome />} />
+			<Route path='*' element={<NotFound />} />
 		</Routes>
 	)
 }
