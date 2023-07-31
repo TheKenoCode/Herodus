@@ -1,6 +1,9 @@
 {
   "extends": "next/core-web-vitals",
   "rules": {
-    "react/no-unescaped-entities": "off"
+    "react/no-unescaped-entities": "off",
+    "eslint.autoFixOnSave": true,
+    "semi": "off",
+    "@typescript-eslint/semi": "warn" 
   }
 }

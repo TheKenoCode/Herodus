@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,200;0,300;0,400;0,700;1,100;1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@1,700&family=Roboto:wght@300;400&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    background-color: #1a0c21;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+
+::-webkit-scrollbar {
+	display: none;
+}
+* {
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none;
+}
+.particles {
+	position: absolute;
+}
+.footer_bg{
+background: linear-gradient(90deg, rgba(26,12,33,1) 0%, rgba(26,12,33,1) 62%, rgba(78,31,101,1) 100%);
+}
+
+.herocard {
+  
+  
+  filter: drop-shadow(0px 0px 15px #2baeba);
+
+  animation: glow 1.5s linear infinite alternate;
+}
+
+@keyframes glow{
+  to {
+    filter: drop-shadow(0px 0px 40px rgb(221, 68, 216));
+
+  }
+}
+
+
+
+.cut-corners {
+  clip-path: polygon(75% 0%, 100% 50%, 75% 100%, 0% 100%, 25% 50%, 0% 0%);
+}
+

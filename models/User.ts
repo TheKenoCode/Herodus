@@ -8,9 +8,6 @@ export class User {
   Name: string;
 
   @prop()
-  username: string;
-
-  @prop()
   email: string;
 
   @prop()
