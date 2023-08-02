@@ -56,7 +56,7 @@ const Contact: React.FC<Props> = (props) => {
 
   return (
     <div className="text-white ">
-      <section className="h-screen flex-col flex  bg-contact-bg  p-5  bg-center bg-no-repeat bg-cover border-[#e6bc6a] border-t-4 justify-center items-center">
+      <section className="h-full py-[250px] flex-col flex  bg-contact-bg  p-5  bg-center bg-no-repeat bg-cover border-[#e6bc6a] border-t-4 justify-center items-center">
         <div className=" bg-black bg-opacity-60 h-max w-full border-[#e6bc6a] border-2 lg:w-[800px] rounded-3xl">
           <h1 className="p-5 text-4xl font-bold text-center">Contact us</h1>
 

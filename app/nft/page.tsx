@@ -1,5 +1,5 @@
 /** @format */
-
+'use client'
 import React from 'react'
 import { TypeAnimation } from 'react-type-animation'
 import Particles from 'react-tsparticles'
@@ -22,11 +22,11 @@ const NFT: React.FC<Props> = (props) => {
 				params={particleParams}
 				init={particlesInit}
 			/> */}
-      <section className="z-10 flex flex-col justify-center h-screen bg-primary ">
+      <section className="z-10 flex flex-col justify-center h-full py-32 bg-primary">
         <div className="z-10 flex flex-col items-center justify-center p-5">
           <h1 className="text-6xl font-bold text-center text-white">NFTs</h1>
           <Image priority={true} src={nftGif} className="z-10 m-auto " alt="" />
-          {/* <TypeAnimation
+          <TypeAnimation
             sequence={[
               'UNDER CONSTRUCTION..',
               2000,
@@ -38,7 +38,7 @@ const NFT: React.FC<Props> = (props) => {
             repeat={Infinity}
             style={{ fontSize: '2em', display: 'inline-block' }}
             className="mt-10 text-secondary"
-          /> */}
+          />
         </div>
       </section>
     </div>

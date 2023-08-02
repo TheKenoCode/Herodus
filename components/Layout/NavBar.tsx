@@ -16,10 +16,7 @@ const NavBar: React.FC<Props> = (props) => {
   }
   return (
     <div className="absolute w-screen bg-black bg-opacity-30">
-      <nav
-        className="  relative w-screen max-w-[1500px]  h-[70px]  z-50 flex  mx-auto text-white
-		  flex-col justify-between text-center p-5 items-center"
-      >
+      <nav className="relative w-screen max-w-[1500px]  h-[70px]  z-50 flex  mx-auto text-white flex-col justify-between text-center p-5 items-center">
         <div className="flex items-center justify-between w-full ">
           <h1>
             <Link className="text-3xl font-bold " href="/">
