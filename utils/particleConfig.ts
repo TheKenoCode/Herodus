@@ -9,7 +9,7 @@ export const particleParams: ISourceOptions = {
 	interactivity: {
 		events: {
 			onHover: {
-				enable: true,
+				enable: false,
 				mode: "repulse",
 			},
 		},
@@ -27,7 +27,7 @@ export const particleParams: ISourceOptions = {
 			value: 200,
 			density: {
 				enable: true,
-				area: 800,
+				area: 1000,
 			},
 		},
 		size: {

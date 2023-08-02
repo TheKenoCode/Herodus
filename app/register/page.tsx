@@ -15,7 +15,6 @@ interface Props {
 
 interface FormInput {
   name: string
-  username: string
   email: string
   password: string
   confirmPassword: string
@@ -67,7 +66,7 @@ const Register: React.FC<Props> = (props) => {
             </h1>
             <button
               onClick={() => signIn('google')}
-              className="flex items-center gap-4 pl-3 mx-auto mt-10 bg-white rounded-lg shadow-xl"
+              className="flex items-center gap-4 pl-3 mx-auto mt-10 bg-white rounded-full shadow-xl "
             >
               <Image
                 src={googleLogo}
@@ -77,7 +76,7 @@ const Register: React.FC<Props> = (props) => {
                 className=""
               />
 
-              <span className="px-4 py-3 text-white bg-blue-500 ">
+              <span className="px-4 py-3 font-bold text-white duration-300 ease-in-out rounded-r-full transition-bg bg-secondary hover:bg-primary">
                 Sign in with Google
               </span>
             </button>
@@ -88,34 +87,28 @@ const Register: React.FC<Props> = (props) => {
               <label className="mb-2 text-xl">name</label>
               <input
                 type="name"
-                className="h-10 mb-5 text-black outline outline-offset-2 focus:outline-secondary"
+                className="h-10 pl-4 mb-5 text-black rounded-full outline outline-offset-2 focus:outline-secondary"
                 {...register('name', { required: true })}
-              />
-              <label className="mb-2 text-xl">Username</label>
-              <input
-                type="name"
-                className="h-10 mb-5 text-black outline outline-offset-2 focus:outline-secondary"
-                {...register('username', { required: true })}
               />
               {/* {errors.username && <p>Username is required</p>} */}
               <label className="mb-2 text-xl">Email</label>
               <input
                 type="email"
-                className="h-10 mb-5 text-black outline outline-offset-2 focus:outline-secondary"
+                className="h-10 pl-4 mb-5 text-black rounded-full outline outline-offset-2 focus:outline-secondary"
                 {...register('email', { required: true })}
               />
               {/* {errors.email && <p>Email is required</p>} */}
               <label className="mb-2 text-xl">Password</label>
               <input
                 type="password"
-                className="h-10 mb-5 text-black outline outline-offset-2 focus:outline-secondary"
+                className="h-10 pl-4 mb-5 text-black rounded-full outline outline-offset-2 focus:outline-secondary"
                 {...register('password', { required: true })}
               />
               {/* {errors.password && <p>Password is required</p>} */}
               <label className="mb-2 text-xl">Confirm Password</label>
               <input
                 type="password"
-                className="h-10 mb-5 text-black outline outline-offset-2 focus:outline-secondary"
+                className="h-10 pl-4 mb-5 text-black rounded-full outline outline-offset-2 focus:outline-secondary"
                 {...register('confirmPassword', { required: true })}
               />
               {/* {errors.confirmPassword && <p>Confirm Password is required</p>} */}
@@ -125,14 +118,6 @@ const Register: React.FC<Props> = (props) => {
                 value="Register"
               />
             </form>
-          </div>
-          <div className="text-center w-full  flex flex-col justify-center  items-center    p-5  h-[500px] sm:w-[500px] md:h-[850px] ">
-            <Image
-              src={heroCard}
-              className="w-[800px] relative  transition-hover duration-300 ease-in-out hover:drop-shadow-[0_15px_15px_rgba(211,44,255,0.5)]   herocard"
-              alt=""
-              priority={true}
-            />
           </div>
         </div>
       </section>

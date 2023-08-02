@@ -22,7 +22,7 @@ const Login: React.FC<Props> = (props) => {
               </h1>
               <button
                 onClick={() => signIn('google')}
-                className="flex items-center gap-4 pl-3 mx-auto mb-10 bg-white rounded-lg shadow-xl"
+                className="flex items-center gap-4 pl-3 mx-auto mt-10 bg-white rounded-full shadow-xl "
               >
                 <Image
                   src={googleLogo}
@@ -32,21 +32,21 @@ const Login: React.FC<Props> = (props) => {
                   className=""
                 />
 
-                <span className="px-4 py-3 text-white bg-blue-500 ">
+                <span className="px-4 py-3 font-bold text-white duration-300 ease-in-out rounded-r-full transition-bg bg-secondary hover:bg-primary">
                   Sign in with Google
                 </span>
-              </button>{' '}
+              </button>
               <label className="mb-2 text-xl">Email</label>
               <input
                 type="email"
-                className="h-10 mb-5 text-black outline outline-offset-2 focus:outline-third"
+                className="h-10 pl-4 mb-5 text-black rounded-full outline outline-offset-2 focus:outline-secondary"
                 name="user_email"
                 id=""
               />
               <label className="mb-2 text-xl">Password</label>
               <input
                 type="text"
-                className="h-10 mb-5 text-black outline outline-offset-2 focus:outline-third"
+                className="h-10 pl-4 mb-5 text-black rounded-full outline outline-offset-2 focus:outline-secondary"
                 name="user_name"
                 id=""
               />
@@ -57,7 +57,6 @@ const Login: React.FC<Props> = (props) => {
               />
             </form>
           </div>
-          <div className="text-center w-full mt-14 flex flex-col justify-center  items-center bg-login-bg bg-cover bg-no-repeat border-[#e6bc6a] border-t-4 lg:border-none  p-5 lg:h-screen h-[320px] md:h-[660px] "></div>
         </div>
       </section>
     </div>

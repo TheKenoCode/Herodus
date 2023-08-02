@@ -7,7 +7,7 @@ const Footer: React.FC = () => {
   return (
     <div className="absolute w-full ">
       <footer>
-        <div className="text-center py-10 border-[#3a3a3a74] footer_bg  border-y-2  .footer_bg  text-white">
+        <div className="text-center py-10 border-[#3a3a3a74] bg-primary  border-y-2  .footer_bg  text-white">
           <h1 className="text-2xl font-bold text-center lg:text-start lg:ml-20 md:text-4xl">
             Herodus
           </h1>

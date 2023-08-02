@@ -19,7 +19,13 @@ const NavBar: React.FC<Props> = (props) => {
       <nav className="relative w-screen max-w-[1500px]  h-[70px]  z-50 flex  mx-auto text-white flex-col justify-between text-center p-5 items-center">
         <div className="flex items-center justify-between w-full ">
           <h1>
-            <Link className="text-3xl font-bold " href="/">
+            <Link
+              onClick={() => {
+                setToggle(false)
+              }}
+              className="text-3xl font-bold "
+              href="/"
+            >
               Herodus
             </Link>
           </h1>
