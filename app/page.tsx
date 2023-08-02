@@ -7,9 +7,9 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Particles from 'react-tsparticles'
 import { loadFull } from 'tsparticles'
-import { BiDna } from 'react-icons/Bi'
-import { PiUsersThreeDuotone } from 'react-icons/Pi'
-import { AiOutlineScan } from 'react-icons/Ai'
+import { BiDna } from 'react-icons/bi'
+import { PiUsersThreeDuotone } from 'react-icons/pi'
+import { AiOutlineScan } from 'react-icons/ai'
 
 // import AnimatedText from "react-animated-text-content"
 import { TypeAnimation } from 'react-type-animation'
