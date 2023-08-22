@@ -7,6 +7,7 @@ import jwt from 'jsonwebtoken'
 import connectDB from '../../../utils/connectDB'
 import { authenticateJWT } from '../../../middleware/authenticateJWT'
 import { BlogPostModel, UserModel } from '../../../models'
+export const dynamic = 'force-dynamic'
 
 // Constants
 const JWT_SECRET = process.env.JWT_SECRET || 'my-secret-key'

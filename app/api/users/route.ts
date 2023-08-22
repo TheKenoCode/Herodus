@@ -8,6 +8,7 @@ import jwt from 'jsonwebtoken'
 import connectDB from '../../../utils/connectDB'
 import { UserModel } from '../../../models'
 import { authenticateToken } from '../../../utils/authMiddleware'
+export const dynamic = 'force-dynamic'
 
 // Configuration
 const JWT_SECRET = process.env.JWT_SECRET || 'my-secret-key' // It's safer to keep the secret in .env
