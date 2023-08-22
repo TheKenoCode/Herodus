@@ -1,5 +1,6 @@
 'use client'
-
+import { getApiUrl } from '../../utils/API_URL'
+const API_URL = getApiUrl()
 // React imports
 import React from 'react'
 
@@ -40,7 +41,7 @@ const Login: React.FC<Props> = (props) => {
 
   const onSubmit = async (data: LoginFormInput) => {
     try {
-      const response = await axios.post('/api/users/login', {
+      const response = await axios.post(`${API_URL}/api/users/login`, {
         email: data.user_email,
         password: data.user_password,
       })

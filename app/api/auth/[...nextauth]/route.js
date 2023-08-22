@@ -1,7 +1,7 @@
 // External and third-party imports
 import NextAuth from 'next-auth/next'
 import GoogleProvider from 'next-auth/providers/google'
-import { getApiUrl } from '../../../../utils/API_URL'
+import { getApiUrl } from '../../../../utils//API_URL'
 const API_URL = getApiUrl()
 
 // Internal imports and utilities
