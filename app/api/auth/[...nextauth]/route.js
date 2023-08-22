@@ -6,7 +6,7 @@ const API_URL = getApiUrl()
 
 // Internal imports and utilities
 import connectDB from '../../../../utils/connectDB'
-import { UserModel } from '../../../../models'
+import { UserModel } from '../../../../models/User'
 
 // Configuration options for NextAuth
 const authOptions = {
@@ -23,7 +23,7 @@ const authOptions = {
     async session({ session }) {
       const email = session.user.email // Extract email from session
       const sessionUser = await UserModel.findOne({ email })
-
+      console.log(sessionUser)
       session.user._id = sessionUser._id
       session.user.name = sessionUser.name
       return session

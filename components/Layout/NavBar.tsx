@@ -17,6 +17,7 @@ interface Props {
 const NavBar: React.FC<Props> = (props) => {
   const dispatch = useDispatch()
   const { status, data: session } = useSession()
+  console.log(status)
   const [toggle, setToggle] = useState(false)
   const auth = useSelector((state: RootState) => state.auth)
   const userRole = useSelector((state: RootState) => state.auth?.user?.role)
