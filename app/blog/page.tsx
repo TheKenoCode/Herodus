@@ -19,6 +19,7 @@ interface Props {
 const Blog: React.FC<Props> = () => {
   const dispatch = useDispatch()
   const posts = useSelector((state: any) => state.blogPost.posts)
+  console.log(posts)
   const status = useSelector((state: any) => state.blogPost.status)
   const error = useSelector((state: any) => state.blogPost.error)
 

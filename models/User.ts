@@ -1,4 +1,4 @@
-import { prop, plugin } from '@typegoose/typegoose'
+import mongoose, { Schema, Document } from 'mongoose'
 import { nanoid } from 'nanoid'
 import mongooseAutoPopulate from 'mongoose-autopopulate'
 
@@ -8,23 +8,25 @@ enum UserRole {
   EDITOR = 'editor',
   // Add other roles as needed
 }
-@plugin(mongooseAutoPopulate as any)
-export class User {
-  @prop({ default: () => nanoid(9) })
-  _id: string
 
-  @prop()
-  name: string
+const UserSchema: Schema = new Schema({
+  _id: { type: String, default: () => nanoid(9) },
+  name: { type: String },
+  email: { type: String },
+  password: { type: String },
+  role: { type: String, enum: Object.values(UserRole), default: UserRole.USER },
+  createdAt: { type: Date, default: () => new Date() },
+})
 
-  @prop()
-  email: string
-
-  @prop()
-  password: string
-
-  @prop({ enum: UserRole, default: UserRole.USER })
-  role: UserRole
-
-  @prop({ default: () => new Date() })
-  createdAt: Date
-}
+UserSchema.plugin(mongooseAutoPopulate)
+export const UserModel =
+  mongoose.models.User ||
+  mongoose.model<
+    Document & {
+      name: string
+      email: string
+      password: string
+      role: UserRole
+      createdAt: Date
+    }
+  >('User', UserSchema)

@@ -6,7 +6,9 @@ import jwt from 'jsonwebtoken'
 // Internal imports and utilities
 import connectDB from '../../../utils/connectDB'
 import { authenticateJWT } from '../../../middleware/authenticateJWT'
-import { BlogPostModel, UserModel } from '../../../models'
+import { UserModel } from '../../../models/User'
+import { BlogPostModel } from '../../../models/BlogPost'
+
 export const dynamic = 'force-dynamic'
 
 // Constants
@@ -35,7 +37,7 @@ export async function GET(req: NextApiRequest): Promise<NextResponse> {
   await connectDB()
 
   try {
-    const posts = await BlogPostModel.find().populate('author')
+    const posts = await BlogPostModel.find({}).populate('author').exec()
     return NextResponse.json(posts.map((post) => post.toObject()))
   } catch (error) {
     return NextResponse.json({ success: false, message: error.message })

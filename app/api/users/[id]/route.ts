@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server'
 
 // Internal imports and utilities
 import connectDB from '../../../../utils/connectDB'
-import { UserModel } from '../../../../models'
+import { UserModel } from '../../../../models/User'
 
 /**
  * GET handler to retrieve a user by ID.

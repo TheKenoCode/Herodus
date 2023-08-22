@@ -1,22 +1,24 @@
-import { prop, Ref, plugin } from '@typegoose/typegoose'
+import mongoose, { Schema, Document } from 'mongoose'
 import { nanoid } from 'nanoid'
-import { User } from './User'
 import mongooseAutoPopulate from 'mongoose-autopopulate'
 
-@plugin(mongooseAutoPopulate as any)
-export class BlogPost {
-  @prop({ default: () => nanoid(9) })
-  _id: string
+const BlogPostSchema: Schema = new Schema({
+  _id: { type: String, default: () => nanoid(9) },
+  title: { type: String, required: true },
+  content: { type: String, required: true },
+  author: { type: String, ref: 'User', autopopulate: true },
+  createdAt: { type: Date, default: () => new Date() },
+})
 
-  @prop({ required: true })
-  title: string
+BlogPostSchema.plugin(mongooseAutoPopulate)
 
-  @prop({ required: true })
-  content: string
-
-  @prop({ autopopulate: true, ref: () => User })
-  author: Ref<User>
-
-  @prop({ default: () => new Date() })
-  createdAt: Date
-}
+export const BlogPostModel =
+  mongoose.models.BlogPost ||
+  mongoose.model<
+    Document & {
+      title: string
+      content: string
+      author: string
+      createdAt: Date
+    }
+  >('BlogPost', BlogPostSchema)

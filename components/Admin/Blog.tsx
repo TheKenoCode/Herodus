@@ -19,7 +19,6 @@ interface Props {
 const Blog: React.FC<Props> = () => {
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
-  const [author, setAuthor] = useState('')
   const [feedback, setFeedback] = useState('')
 
   const dispatch = useDispatch()
@@ -37,7 +36,7 @@ const Blog: React.FC<Props> = () => {
     try {
       const response = await axios.post(
         `${API_URL}/api/blogposts`,
-        { title, content, author },
+        { title, content },
         { headers: { authToken: `Bearer ${token}` } }
       )
 
@@ -83,20 +82,6 @@ const Blog: React.FC<Props> = () => {
             id="title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full p-2 border rounded"
-            required
-          />
-        </div>
-
-        <div>
-          <label htmlFor="author" className="block mb-2 text-lg font-bold">
-            Author:
-          </label>
-          <input
-            type="text"
-            id="author"
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
             className="w-full p-2 border rounded"
             required
           />

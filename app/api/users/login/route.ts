@@ -7,7 +7,7 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
 // --- Relative imports ---
-import { UserModel } from '../../../../models'
+import { UserModel } from '../../../../models/User'
 import connectDB from '../../../../utils/connectDB'
 
 // Constants

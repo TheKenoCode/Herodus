@@ -29,7 +29,8 @@ const initialState: PostState = {
 // Thunks allow for handling asynchronous operations in Redux.
 export const fetchPosts = createAsyncThunk('blogPost/fetchPosts', async () => {
   const response = await fetch(`${API_URL}/api/blogposts`)
-  return response.json() as Post[]
+  const data = await response.json()
+  return data as Post[]
 })
 
 // Creating a Redux slice for blog posts.

@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken'
 
 // Internal imports and utilities
 import connectDB from '../../../utils/connectDB'
-import { UserModel } from '../../../models'
+import { UserModel } from '../../../models/User'
 import { authenticateToken } from '../../../utils/authMiddleware'
 import { revalidatePath } from 'next/cache'
 
@@ -31,11 +31,9 @@ interface CreateUserBody {
  */
 export async function GET(req: NextApiRequest): Promise<NextResponse> {
   await connectDB()
-  const path = request.nextUrl.searchParams.get('path') || '/'
 
-  revalidatePath(path)
   try {
-    const users = await UserModel.find()
+    const users = await UserModel.find({})
     return NextResponse.json(users)
   } catch (error) {
     return NextResponse.json({ success: false, message: error.message })
