@@ -1,6 +1,7 @@
 /** @format */
 
 // components/Layout.tsx
+import Link from 'next/link'
 import React from 'react'
 
 const Footer: React.FC = () => {
@@ -17,7 +18,7 @@ const Footer: React.FC = () => {
               {exploreLinks.map((exploreLinks, index) => {
                 return (
                   <li className="mb-2 hover:text-third" key={index}>
-                    <a href={exploreLinks.link}>{exploreLinks.name}</a>
+                    <Link href={exploreLinks.link}>{exploreLinks.name}</Link>
                   </li>
                 )
               })}
@@ -28,7 +29,7 @@ const Footer: React.FC = () => {
               {followLinks.map((followLinks, index) => {
                 return (
                   <li className="mb-2 hover:text-third" key={index}>
-                    <a href={followLinks.link}>{followLinks.name}</a>
+                    <Link href={followLinks.link}>{followLinks.name}</Link>
                   </li>
                 )
               })}
@@ -39,7 +40,7 @@ const Footer: React.FC = () => {
             {botomLinks.map((botomLinks, index) => {
               return (
                 <li className="mb-2 hover:text-third" key={index}>
-                  <a href={botomLinks.link}>{botomLinks.name}</a>
+                  <Link href={botomLinks.link}>{botomLinks.name}</Link>
                 </li>
               )
             })}
@@ -61,14 +62,14 @@ const followLinks = [
   { name: 'Youtube', link: '' },
 ]
 const exploreLinks = [
-  { name: 'Jobs', link: '' },
-  { name: 'Blog', link: '' },
-  { name: 'News', link: '' },
+  { name: 'Home', link: '/' },
+  { name: 'Blog', link: '/blog' },
+  { name: 'NFT', link: '/nft' },
 ]
 const botomLinks = [
-  { name: 'Contact', link: '' },
-  { name: 'F.A.Q', link: '' },
-  { name: 'Cookies', link: '' },
-  { name: 'Legal', link: '' },
-  { name: 'Privacy', link: '' },
+  { name: 'Contact', link: '/contact' },
+  { name: 'F.A.Q', link: '/faq' },
+  { name: 'Cookies', link: '/cookies' },
+  { name: 'Legal', link: '/legal' },
+  { name: 'Privacy', link: '/privacy' },
 ]

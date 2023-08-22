@@ -1,16 +1,21 @@
-/** @format */
 'use client'
+
+// React and Next.js imports
 import React from 'react'
+import { useRouter } from 'next/navigation'
+import Image from 'next/image'
+
+// Library and utility imports
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
-import { useRouter } from 'next/navigation'
 import { signIn } from 'next-auth/react'
+
+// Assets
 import googleLogo from '../../public/assets/google.png'
-import Image from 'next/image'
 import heroCard from '../../public/assets/herocard.png'
 
 interface Props {
-  // define your props here
+  // Define props here if needed
 }
 
 interface FormInput {
@@ -21,7 +26,7 @@ interface FormInput {
 }
 
 const Register: React.FC<Props> = (props) => {
-  const { push } = useRouter()
+  const router = useRouter()
 
   const {
     register,
@@ -36,82 +41,74 @@ const Register: React.FC<Props> = (props) => {
       return
     }
 
-    // Pass the data to the function that will handle the registration
+    // Handle registration
     handleRegister(data)
   }
 
-  // Function that handles user registration
+  // Function to handle user registration
   const handleRegister = async (data: FormInput) => {
-    console.log(data)
-
     try {
-      const response = await axios.post('http://localhost:8000/api/users', data)
-
-      // Handle the response as needed
-      console.log(response.data)
-      push('/login')
+      await axios.post('http://localhost:3000/api/users', data)
+      router.push('/login')
     } catch (error) {
-      // Handle the error as needed
       console.error(error)
     }
   }
 
   return (
-    <div className="text-white ">
+    <div className="text-white">
       <section className="bg-center bg-no-repeat bg-cover bg-home-hero-bg">
-        <div className="items-center justify-center xl:flex ">
+        <div className="items-center justify-center xl:flex">
           <div className="w-full h-full p-5 pt-32">
-            <h1 className="text-center text-md md:text-2xl">
-              Sing up and join historians across the world
-            </h1>
-            <button
-              onClick={() => signIn('google')}
-              className="flex items-center gap-4 pl-3 mx-auto mt-10 bg-white rounded-full shadow-xl "
-            >
-              <Image
-                src={googleLogo}
-                height={30}
-                alt="google"
-                width={30}
-                className=""
-              />
-
-              <span className="px-4 py-3 font-bold text-white duration-300 ease-in-out rounded-r-full transition-bg bg-secondary hover:bg-primary">
-                Sign in with Google
-              </span>
-            </button>
             <form
-              className="flex flex-col  justify-between md:w-[500px] p-5 m-auto"
+              className="flex flex-col justify-between md:w-[500px] p-5 m-auto"
               onSubmit={handleSubmit(onSubmit)}
             >
-              <label className="mb-2 text-xl">name</label>
+              <h1 className="text-center text-md md:text-2xl">
+                Sign up and join historians across the world
+              </h1>
+
+              <button
+                onClick={() => {
+                  signIn('google')
+                  router.push('/login')
+                }}
+                className="flex items-center gap-4 pl-3 mx-auto mt-10 bg-white rounded-full shadow-xl"
+              >
+                <Image src={googleLogo} height={30} alt="google" width={30} />
+                <span className="px-4 py-3 font-bold text-white duration-300 ease-in-out rounded-r-full transition-bg bg-secondary hover:bg-primary">
+                  Sign in with Google
+                </span>
+              </button>
+
+              <label className="mb-2 text-xl">Name</label>
               <input
                 type="name"
-                className="h-10 pl-4 mb-5 text-black rounded-full outline outline-offset-2 focus:outline-secondary"
+                className="h-10 pl-4 mb-5 text-black rounded-full focus:outline-secondary"
                 {...register('name', { required: true })}
               />
-              {/* {errors.username && <p>Username is required</p>} */}
+
               <label className="mb-2 text-xl">Email</label>
               <input
                 type="email"
-                className="h-10 pl-4 mb-5 text-black rounded-full outline outline-offset-2 focus:outline-secondary"
+                className="h-10 pl-4 mb-5 text-black rounded-full focus:outline-secondary"
                 {...register('email', { required: true })}
               />
-              {/* {errors.email && <p>Email is required</p>} */}
+
               <label className="mb-2 text-xl">Password</label>
               <input
                 type="password"
-                className="h-10 pl-4 mb-5 text-black rounded-full outline outline-offset-2 focus:outline-secondary"
+                className="h-10 pl-4 mb-5 text-black rounded-full focus:outline-secondary"
                 {...register('password', { required: true })}
               />
-              {/* {errors.password && <p>Password is required</p>} */}
+
               <label className="mb-2 text-xl">Confirm Password</label>
               <input
                 type="password"
-                className="h-10 pl-4 mb-5 text-black rounded-full outline outline-offset-2 focus:outline-secondary"
+                className="h-10 pl-4 mb-5 text-black rounded-full focus:outline-secondary"
                 {...register('confirmPassword', { required: true })}
               />
-              {/* {errors.confirmPassword && <p>Confirm Password is required</p>} */}
+
               <input
                 className="w-40 py-2 m-auto mt-10 font-bold uppercase transition duration-500 border-2 border-secondary hover:bg-secondary hover:scale-110 ease"
                 type="submit"

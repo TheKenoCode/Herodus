@@ -4,9 +4,9 @@ import React from 'react'
 
 const About: React.FC = () => {
   return (
-    <div className="text-white bg-primary">
-      <section className="text-center  p-5 bg-home-hero-bg bg-center bg-no-repeat py-[250px] bg-cover h-full flex   justify-center items-center">
-        <div className="p-5 m-auto bg-black border-2 bg-opacity-70 lg:w-1/2 border-third h-max rounded-3xl">
+    <div className="text-white bg-primary ">
+      <section className="text-center   p-5 bg-home-hero-bg bg-center bg-no-repeat py-[250px] bg-cover h-full flex   justify-center items-center">
+        <div className="container p-5 m-auto bg-black border-2 bg-opacity-70 border-third h-max rounded-3xl">
           <h1 className="mb-4 text-2xl font-bold md:text-4xl">
             What is Herodus?
           </h1>

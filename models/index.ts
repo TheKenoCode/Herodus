@@ -1,6 +1,11 @@
-// models/index.ts
-import { User } from "./User";
-import { getModelForClass } from "@typegoose/typegoose";
+import { User } from './User'
+import { BlogPost } from './BlogPost'
 
-export const UserModel = getModelForClass(User);
-// add other models here
+import { getModelForClass } from '@typegoose/typegoose'
+import mongoose from 'mongoose' // Ensure mongoose is installed and imported
+
+// Check if the model already exists and use that, or create a new one
+const UserModel = mongoose.models.User || getModelForClass(User)
+const BlogPostModel = mongoose.models.BlogPost || getModelForClass(BlogPost)
+
+export { UserModel, BlogPostModel }

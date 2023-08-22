@@ -25,7 +25,12 @@ const NFT: React.FC<Props> = (props) => {
       <section className="z-10 flex flex-col justify-center h-full py-32 bg-primary">
         <div className="z-10 flex flex-col items-center justify-center p-5">
           <h1 className="text-6xl font-bold text-center text-white">NFTs</h1>
-          <Image priority={true} src={nftGif} className="z-10 m-auto " alt="" />
+          <Image
+            priority={true}
+            src={nftGif}
+            className="z-10 m-auto "
+            alt="s"
+          />
           <TypeAnimation
             sequence={[
               'UNDER CONSTRUCTION..',
