@@ -1,4 +1,6 @@
 'use client'
+import { getApiUrl } from '../../utils/API_URL'
+const API_URL = getApiUrl()
 
 // React and Next.js imports
 import React from 'react'
@@ -48,7 +50,7 @@ const Register: React.FC<Props> = (props) => {
   // Function to handle user registration
   const handleRegister = async (data: FormInput) => {
     try {
-      await axios.post('http://localhost:3000/api/users', data)
+      await axios.post(`${API_URL}/api/users`, data)
       router.push('/login')
     } catch (error) {
       console.error(error)

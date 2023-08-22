@@ -8,6 +8,9 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  env: {
+    MODE: process.env.MODE,
+  },
 }
 
 module.exports = nextConfig

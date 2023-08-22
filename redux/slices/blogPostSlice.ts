@@ -1,5 +1,7 @@
 // Importing specific methods from the Redux toolkit library.
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
+import { getApiUrl } from '../../utils/API_URL'
+const API_URL = getApiUrl()
 
 // Defining the Post interface which represents the shape of a blog post.
 interface Post {
@@ -26,7 +28,7 @@ const initialState: PostState = {
 // Async thunk for fetching blog posts from the API.
 // Thunks allow for handling asynchronous operations in Redux.
 export const fetchPosts = createAsyncThunk('blogPost/fetchPosts', async () => {
-  const response = await fetch('http://localhost:3000/api/blogposts')
+  const response = await fetch(`${API_URL}/api/blogposts`)
   return response.json() as Post[]
 })
 

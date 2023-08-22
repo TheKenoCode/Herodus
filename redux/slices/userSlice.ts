@@ -1,6 +1,7 @@
 // Importing specific methods from the Redux toolkit library.
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-
+import { getApiUrl } from '../../utils/API_URL'
+const API_URL = getApiUrl()
 // Defining the User interface which represents the shape of a user.
 interface User {
   name: string
@@ -30,7 +31,7 @@ const initialState: UserState = {
 export const fetchAllUsers = createAsyncThunk(
   'user/fetchAllUsers',
   async () => {
-    const response = await fetch('http://localhost:3000/api/users') // Fetching all users from the given endpoint.
+    const response = await fetch(`${API_URL}/api/users`) // Fetching all users from the given endpoint.
     return response.json() as User[]
   }
 )

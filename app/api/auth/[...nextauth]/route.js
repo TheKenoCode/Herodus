@@ -1,6 +1,8 @@
 // External and third-party imports
 import NextAuth from 'next-auth/next'
 import GoogleProvider from 'next-auth/providers/google'
+import { getApiUrl } from '../../../../utils/API_URL'
+const API_URL = getApiUrl()
 
 // Internal imports and utilities
 import connectDB from '../../../../utils/connectDB'
@@ -40,7 +42,7 @@ const authOptions = {
           const userExists = await UserModel.findOne({ email })
 
           if (!userExists) {
-            const res = await fetch('http://localhost:3000/api/users', {
+            const res = await fetch(`${API_URL}/api/users`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
