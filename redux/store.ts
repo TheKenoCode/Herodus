@@ -11,6 +11,7 @@ import { persistReducer, persistStore } from 'redux-persist'
 import userReducer from './slices/userSlice'
 import authReducer from './slices/authSlice'
 import blogPostReducer from './slices/blogPostSlice'
+import userPostReducer from './slices/UserPostSlice'
 
 // Configuration object for redux-persist.
 const persistConfig = {
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   user: userReducer,
   blogPost: blogPostReducer,
+  userPost: userPostReducer,
 })
 
 // Wrapping the combined reducer with persistReducer to add persistence capabilities.

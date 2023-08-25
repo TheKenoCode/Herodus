@@ -13,7 +13,7 @@ import { motion } from 'framer-motion'
 // Local imports and assets
 import { particleParams } from '../../utils/particleConfig'
 import GreekHelmet from '../ThreeJsModels/GreekHelmet'
-import RomanBuildingModel from '../ThreeJsModels/RomanBuildingModel'
+import RomanBuildingModel from '../ThreeJsModels/JapaneseBuilding'
 import img1 from '../../public/assets/giphy.gif'
 import romeGif from '../../public/assets/rome.gif'
 import registerButton from '../../public/assets/registerButton.png'
