@@ -23,7 +23,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <title>Herodus - History Meets The Future</title>
+      <head>
+        <link rel="icon" href="/favicon.ico" />
+        <title>Herodus - History Meets The Future</title>
+      </head>
       <body suppressHydrationWarning={true}>
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>

@@ -84,6 +84,42 @@ const GreekHelmetCopy = ({ height }) => {
       window.removeEventListener('resize', setModelPosition)
     }
   }, [])
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      let dx = 0
+      let dy = 0
+      let dz = 0
+
+      switch (e.key) {
+        case 'ArrowUp':
+          dz = -1 // Move model forward
+          break
+        case 'ArrowDown':
+          dz = 1 // Move model backward
+          break
+        case 'ArrowLeft':
+          dx = -1 // Move model to the left
+          break
+        case 'ArrowRight':
+          dx = 1 // Move model to the right
+          break
+        // Add more cases for other keys if desired
+      }
+
+      setPosition((prevPos) => [
+        prevPos[0] + dx,
+        prevPos[1] + dy,
+        prevPos[2] + dz,
+      ])
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [])
   return (
     <Canvas style={{ height: `${height}`, position: 'relative' }}>
       <ambientLight intensity={0.5} />
