@@ -1,7 +1,5 @@
 // Importing necessary methods and utilities.
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
-import { getApiUrl } from '../../utils/API_URL'
-const API_URL = getApiUrl()
 
 // Defining the UserPost interface.
 interface UserPost {
@@ -29,7 +27,7 @@ const initialState: UserPostState = {
 export const fetchUserPosts = createAsyncThunk(
   'userPost/fetchUserPosts',
   async () => {
-    const response = await fetch(`${API_URL}/api/userposts`)
+    const response = await fetch(`$/api/userposts`)
     const data = await response.json()
     console.log(data)
     return data as UserPost[]

@@ -1,5 +1,3 @@
-import { getApiUrl } from '../../utils/API_URL'
-const API_URL = getApiUrl()
 // --- React and related imports ---
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
@@ -35,7 +33,7 @@ const Blog: React.FC<Props> = () => {
 
     try {
       const response = await axios.post(
-        `${API_URL}/api/blogposts`,
+        `/api/blogposts`,
         { title, content },
         { headers: { authToken: `Bearer ${token}` } }
       )
