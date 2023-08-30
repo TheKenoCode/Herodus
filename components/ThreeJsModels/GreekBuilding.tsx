@@ -21,6 +21,7 @@ function ModelAsset(props) {
   useEffect(() => {
     gltfLoader.load('/ModelsFolder/buildings.glb', (gltf) => {
       setModel(gltf.scene)
+      console.log(model)
     })
 
     camera.position.set(10, 2, 35)
