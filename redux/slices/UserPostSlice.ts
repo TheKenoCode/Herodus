@@ -27,7 +27,7 @@ const initialState: UserPostState = {
 export const fetchUserPosts = createAsyncThunk(
   'userPost/fetchUserPosts',
   async () => {
-    const response = await fetch(`$/api/userposts`)
+    const response = await fetch(`/api/userposts`)
     const data = await response.json()
     console.log(data)
     return data as UserPost[]
