@@ -15,12 +15,14 @@ import { useSelector } from 'react-redux'
 import { Provider } from 'react-redux'
 import { signIn, signOut } from '../redux/slices/authSlice'
 import ComingSoon from '../components/ComingSoon'
-const underConstruction = true
+import IntroPage from '../components/IntroPage'
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const [underConstruction, setUnderConstruction] = useState(false)
+
   return (
     <html lang="en">
       <head>
@@ -32,7 +34,10 @@ export default function RootLayout({
           <PersistGate loading={null} persistor={persistor}>
             <NextAuthProvider>
               {underConstruction ? (
-                <ComingSoon />
+                <>
+                  {/* <ComingSoon /> */}
+                  <IntroPage setUnderConstruction={setUnderConstruction} />
+                </>
               ) : (
                 <>
                   <Navbar />

@@ -21,17 +21,13 @@ function ModelAsset(props) {
   // useFrame((state, delta) => (modelRef.current.rotation.y += delta))
 
   useEffect(() => {
-    gltfLoader.load('/ModelsFolder/Grrek_Helmet_01.glb', (gltf) => {
+    gltfLoader.load('/ModelsFolder/buildings.glb', (gltf) => {
       setModel(gltf.scene)
       gltf.scene.traverse((child) => {
         if (child.isMesh) {
           child.material.envMapIntensity = 1
         }
       })
-    })
-
-    objLoader.load('/ModelsFolder/Japanese_Temple.obj', (obj) => {
-      setModel3(obj)
     })
   }, [])
 
@@ -40,7 +36,7 @@ function ModelAsset(props) {
 
 const GreekHelmetCopy = ({ height }) => {
   const controlsRef = useRef()
-  const [position, setPosition] = useState([10, -23, -22])
+  const [position, setPosition] = useState([10, -5, -22])
   const [target, setTarget] = useState([0, -3, -22])
 
   useEffect(() => {
@@ -55,7 +51,7 @@ const GreekHelmetCopy = ({ height }) => {
         setPosition([0, -21, -22])
       } else {
         // Large devices (e.g., desktops)
-        setPosition([10, -23, -22])
+        setPosition([10, -5, -22])
       }
     }
 
@@ -125,7 +121,7 @@ const GreekHelmetCopy = ({ height }) => {
       <ambientLight intensity={0.5} />
       <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
       <pointLight position={[-10, -10, -10]} />
-      <Environment preset="forest" background />
+      <Environment files="./img/HdrSkyMorning004_HDR_4K.hdr" background />
       <Suspense fallback={null}>
         <ModelAsset position={position} />
       </Suspense>

@@ -1,6 +1,6 @@
 import React from 'react'
 // Components and models
-import GreekHelmet from '../ThreeJsModels/GreekHelmet'
+import GreekHelmet from '../ThreeJsModels/GreekBuilding'
 import RomanBuildingModel from '../ThreeJsModels/JapaneseBuilding'
 
 // Chart imports
@@ -22,7 +22,7 @@ const Widgets: React.FC<Props> = (props) => {
           My NFT <span className="text-lg text-secondary">-coming soon</span>
         </h1>
         <div className="bg-[#00000036] rounded-3xl relative  overflow-hidden">
-          <GreekHelmet height={'300px'} />
+          {/* <GreekHelmet height={'300px'} /> */}
           <div className=" z-10 relative flex w-full justify-between p-4 text-sm md:text-lg opacity-75   text-white bg-[#00000052]">
             <span>Found: Greece</span>
             <span>Culture: Greek</span>

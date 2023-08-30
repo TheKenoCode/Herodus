@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Hero from '../components/Home/Hero'
 import Features from '../components/Home/Features'
 import NFT from '../components/Home/NFT'
+import Pricing from '../components/Home/Pricing'
 
 const Home: NextPage = () => {
   return (
@@ -13,6 +14,7 @@ const Home: NextPage = () => {
         <Hero />
         <Features />
         <NFT />
+        <Pricing />
       </div>
     </>
   )

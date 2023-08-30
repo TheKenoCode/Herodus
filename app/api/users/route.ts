@@ -25,18 +25,7 @@ interface CreateUserBody {
   email: string
   password: string
 }
-async function addPostsFieldToExistingUsers() {
-  // Connect to the database
-  await connectDB()
 
-  // Update all users that don't have the UserPosts field and set it to an empty array
-  await UserModel.updateMany(
-    { UserPosts: { $exists: false } }, // Condition to find users without the UserPosts field
-    { $set: { UserPosts: [] } } // Operation to add the UserPosts field and set it to an empty array
-  )
-
-  console.log('Updated users successfully!')
-}
 /**
  * GET handler to fetch all users.
  */
@@ -44,7 +33,7 @@ export async function GET(req: NextApiRequest): Promise<NextResponse> {
   await connectDB()
 
   try {
-    const users = await UserModel.find({}).populate('UserPosts')
+    const users = await UserModel.find({})
 
     return NextResponse.json(users)
   } catch (error) {

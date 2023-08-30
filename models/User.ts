@@ -15,7 +15,6 @@ const UserSchema: Schema = new Schema({
   email: { type: String },
   password: { type: String },
   role: { type: String, enum: Object.values(UserRole), default: UserRole.USER },
-  UserPosts: [{ type: String, ref: 'UserPost', autopopulate: true }],
   createdAt: { type: Date, default: () => new Date() },
 })
 UserSchema.plugin(mongooseAutoPopulate)

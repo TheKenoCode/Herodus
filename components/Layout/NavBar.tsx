@@ -9,7 +9,8 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../redux/store'
 import { logout } from '../../redux/slices/authSlice'
 import { useDispatch } from 'react-redux'
-
+import logo from '../../public/assets/logo2.png'
+import Image from 'next/image'
 interface Props {
   // define your props here
 }
@@ -78,7 +79,7 @@ const NavBar: React.FC<Props> = (props) => {
               className="text-3xl font-bold "
               href="/"
             >
-              Herodus
+              <Image src={logo} className="my-auto w-40" />
             </Link>
           </h1>
 

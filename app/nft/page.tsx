@@ -29,7 +29,7 @@ const NFT: React.FC<Props> = (props) => {
             priority={true}
             src={nftGif}
             className="z-10 m-auto "
-            alt="s"
+            alt="NFT gif"
           />
           <TypeAnimation
             sequence={[

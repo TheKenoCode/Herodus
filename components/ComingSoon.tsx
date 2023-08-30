@@ -50,7 +50,7 @@ const ComingSoon: React.FC<Props> = (props) => {
     }
   }, [])
   return (
-    <div className="h-screen w-full flex flex-col justify-center items-center">
+    <div className="h-screen bg-black w-full flex flex-col justify-center items-center">
       {/* <div className="h-screen w-screen absolute z-10 opacity-30 bg-black"></div> */}
       <div className="h-screen w-screen opacity-60">
         {selectedTab === 'Greek' && <GreekHelmetCopy height={'100%'} />}
