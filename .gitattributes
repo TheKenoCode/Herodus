@@ -1,1 +1,2 @@
 public/ModelsFolder/buildings.glb filter=lfs diff=lfs merge=lfs -text
+public/ModelsFolder/kings-hand.glb filter=lfs diff=lfs merge=lfs -text
