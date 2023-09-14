@@ -16,6 +16,7 @@ import en from 'javascript-time-ago/locale/en.json'
 import { useParams } from 'next/navigation'
 import { Roboto } from 'next/font/google'
 import NavBar from '../components/Layout/NavBar'
+import { Analytics } from '@vercel/analytics/react'
 
 const roboto = Roboto({
   weight: '400',
@@ -59,6 +60,8 @@ export default function RootLayout({
                 <>
                   {noLayout.includes(pathname) ? <NavBar /> : null}
                   {children}
+                  <Analytics />
+
                   {noLayout.includes(pathname) ? <Footer /> : null}
                 </>
               )}
