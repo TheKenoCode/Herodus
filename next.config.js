@@ -1,6 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  swcMinify: true,
+
   reactStrictMode: true,
+  images: {
+    domains: [
+      'res.cloudinary.com',
+      'static.vecteezy.com',
+      'cdn-icons-png.flaticon.com',
+      'encrypted-tbn0.gstatic.com',
+      'irishparade.org',
+    ],
+  },
   swcMinify: true,
   experimental: {
     appDir: true,
@@ -26,7 +37,7 @@ const nextConfig = {
       /kerberos/,
       /@aws-sdk\/credential-providers/,
       /snappy/,
-      /mongodb-client-encryption/
+      /mongodb-client-encryption/,
     )
 
     return config

@@ -2,15 +2,32 @@
  * TailwindCSS Configuration
  * @type {import('tailwindcss').Config}
  */
+const plugin = require('tailwindcss/plugin')
 
 module.exports = {
   // Specify the files Tailwind should purge
   content: [
-    './app/**/*.{js,ts,jsx,tsx}',
-    './pages/**/*.{js,ts,jsx,tsx}',
-    './components/**/*.{js,ts,jsx,tsx}',
+    './src/app/**/*.{js,ts,jsx,tsx}',
+    './src/pages/**/*.{js,ts,jsx,tsx}',
+    './src/components/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
+    screens: {
+      sm: '600px',
+      // => @media (min-width: 640px) { ... }
+
+      md: '700px',
+      // => @media (min-width: 768px) { ... }
+
+      lg: '850px',
+      // => @media (min-width: 1024px) { ... }
+
+      xl: '1280px',
+      // => @media (min-width: 1280px) { ... }
+
+      '2xl': '1536px',
+      // => @media (min-width: 1536px) { ... }
+    },
     extend: {
       // Custom font families
       fontFamily: {
@@ -27,7 +44,10 @@ module.exports = {
       colors: {
         primary: '#1a0c21',
         secondary: '#ff1053',
-        third: '#00a9a5',
+        third: '#1dcee9',
+        blackBG: '#0c090a',
+        purpleBG: '#2b2030',
+        grayBorder: '#333639',
       },
       // Additional transition properties
       transitionProperty: {
@@ -55,9 +75,27 @@ module.exports = {
         'nft-bg': "url('https://i.imgur.com/RH91tcz.png')",
         'home-hero-bg-2':
           "url('https://cdn.pixabay.com/photo/2018/05/11/09/29/glass-3389935_1280.jpg')",
+        'home-bg-greece':
+          "url('https://ancientinsights.net/wp-content/uploads/2023/02/glories-of-ancient-greece-1536x878.png')",
+      },
+      textShadow: {
+        sm: '0 1px 2px var(--tw-shadow-color)',
+        DEFAULT: '0 2px 4px var(--tw-shadow-color)',
+        lg: '0 8px 16px var(--tw-shadow-color)',
       },
     },
   },
   // Additional plugins can be added here
-  plugins: [],
+  plugins: [
+    plugin(function ({ matchUtilities, theme }) {
+      matchUtilities(
+        {
+          'text-shadow': (value) => ({
+            textShadow: value,
+          }),
+        },
+        { values: theme('textShadow') },
+      )
+    }),
+  ],
 }
