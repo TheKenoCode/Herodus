@@ -11,7 +11,7 @@ import {
   SlSocialTwitter,
   SlSocialInstagram,
   SlSocialYoutube,
-} from 'react-icons/Sl'
+} from 'react-icons/sl'
 // Assets
 import blogCardImage from '@/public/assets/blogcardimage.jpg'
 import logo from '@/public/assets/logo.png'
@@ -26,12 +26,12 @@ const BlogPost: React.FC<Props> = ({}) => {
   const dispatch = useDispatch()
   const posts = useSelector((state: any) => state.blogPost.posts)
   const post = useSelector((state: any) =>
-    state.blogPost.posts.find((p: any) => p._id === id),
+    state.blogPost.posts.find((p: any) => p._id === id)
   )
   const status = useSelector((state: any) => state.blogPost.status)
   const error = useSelector((state: any) => state.blogPost.error)
   const uniquePosts = Array.from(
-    new Map(posts.map((post) => [post['_id'], post])).values(),
+    new Map(posts.map((post) => [post['_id'], post])).values()
   )
   // Fetch posts on initial render
   useEffect(() => {
