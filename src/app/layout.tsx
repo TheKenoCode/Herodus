@@ -61,7 +61,6 @@ export default function RootLayout({
                   {noLayout.includes(pathname) ? <NavBar /> : null}
                   {children}
                   <Analytics />
-
                   {noLayout.includes(pathname) ? <Footer /> : null}
                 </>
               )}
