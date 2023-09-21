@@ -7,7 +7,7 @@ interface Props {
 const Pricing: React.FC<Props> = (props) => {
   return (
     <div className="relative z-50">
-      <section className="container py-10 mx-auto xl:h-screen">
+      <section className="container py-10 mx-auto ">
         <div className="max-w-screen-xl px-4 mx-auto mt-20 xl:px-6">
           <div className="max-w-screen-md mx-auto mb-8 text-center xl:mb-12">
             <h1 className="mb-4 text-4xl tracking-widest text-center text-secondary font-Chakra">

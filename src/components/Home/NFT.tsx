@@ -14,10 +14,11 @@ import Helmet from '@/components/ThreeJsModels/Helmet'
 import ButtonRed from '../ButtonRed'
 
 const NFT: React.FC = () => {
-  const [activeComponent, setActiveComponent] = useState('Horse')
-  const [isVisible, setIsVisible] = useState(false)
-  const modelRef = useRef(null)
-  const modelRef2 = useRef(null)
+  const [activeComponent, setActiveComponent] = useState<string>('Horse')
+  const [isVisible, setIsVisible] = useState<boolean>(false)
+  const modelRef = useRef<HTMLDivElement>(null)
+  const modelRef2 = useRef<HTMLDivElement>(null)
+
   useEffect(() => {
     const currentModelRef = modelRef.current
     const currentModelRef2 = modelRef2.current
@@ -35,7 +36,7 @@ const NFT: React.FC = () => {
         root: null,
         rootMargin: '0px',
         threshold: 0.1, // Adjust if needed
-      },
+      }
     )
 
     if (currentModelRef) {
@@ -55,17 +56,17 @@ const NFT: React.FC = () => {
   }, [])
 
   return (
-    <section className="relative py-20  mx-auto xl:container">
+    <section className="relative py-20 mx-auto xl:container">
       {/* NFTS Section */}
       <h1 className="mb-4 text-4xl tracking-widest text-center text-secondary font-Chakra">
         NFTs & VR
       </h1>
-      <div className="w-[250px]  mx-auto  border-secondary border-2"></div>
+      <div className="w-[250px] mx-auto border-secondary border-2"></div>
 
       <div className="relative mx-auto mt-20 overflow-hidden shadow-2xl rounded-3xl shadow-black">
         <div className="relative grid flex-col-reverse items-start grid-cols-1 xl:gap-2 grid-flow-col-reverse lg:grid-cols-2">
           <div
-            className="bg-black bg-opacity-50   h-[500px] relative order-2 w-full  overflow-hidden rounded-lg lg:order-1 "
+            className="bg-black bg-opacity-50 h-[400px] relative order-2 w-full overflow-hidden rounded-lg lg:order-1 "
             ref={modelRef}
           >
             {isVisible && (
@@ -77,29 +78,27 @@ const NFT: React.FC = () => {
             )}
             <div className="bg-black mb-4 flex rounded-3xl overflow-hidden absolute left-1/2 transform -translate-x-1/2 shadow-2xl shadow-black bg-opacity-50 bottom-0 mx-auto w-[400px] h-10">
               <button
-                className={`h-full w-full hover:bg-gray-700  bg-gray-700 bg-opacity-50
-                  ${activeComponent === 'Horse' ? 'bg-gray-800' : 'bg-gray-700'}
-                  `}
+                className={`h-full w-full hover:bg-gray-700 bg-gray-700 bg-opacity-50 ${
+                  activeComponent === 'Horse' ? 'bg-gray-800' : 'bg-gray-700'
+                }`}
                 onClick={() => setActiveComponent('Horse')}
               >
                 1
               </button>
               <button
-                className={`h-full w-full hover:bg-gray-700  bg-gray-700 bg-opacity-50
-                  ${
-                    activeComponent === 'KingsHand'
-                      ? 'bg-gray-800'
-                      : 'bg-gray-700'
-                  }
-                  `}
+                className={`h-full w-full hover:bg-gray-700 bg-gray-700 bg-opacity-50 ${
+                  activeComponent === 'KingsHand'
+                    ? 'bg-gray-800'
+                    : 'bg-gray-700'
+                }`}
                 onClick={() => setActiveComponent('KingsHand')}
               >
                 2
               </button>
               <button
-                className={`h-full w-full hover:bg-gray-700  bg-gray-700 bg-opacity-50
-                 ${activeComponent === 'Mexico' ? 'bg-gray-800' : 'bg-gray-700'}
-                 `}
+                className={`h-full w-full hover:bg-gray-700 bg-gray-700 bg-opacity-50 ${
+                  activeComponent === 'Mexico' ? 'bg-gray-800' : 'bg-gray-700'
+                }`}
                 onClick={() => setActiveComponent('Mexico')}
               >
                 3
@@ -121,8 +120,7 @@ const NFT: React.FC = () => {
                   with cutting-edge blockchain technology. Own a piece of
                   history, immortalized forever on the blockchain. Experience
                   the past like never before and be a part of history's next
-                  chapter. Feel free to adjust any element to better fit your
-                  platform's tone and style.
+                  chapter.
                 </h4>
               </div>
 
@@ -144,8 +142,8 @@ const NFT: React.FC = () => {
 
       <div className="pt-24 mx-auto ">
         {/* Virtual Journey Section */}
-        <div className="grid items-start grid-cols-1 overflow-hidden shadow-2xl rounded-3xl xl:gap-4 backdrop-blur-lg shadow-black lg:grid-cols-2">
-          <div className="flex flex-col justify-between w-full h-full px-8 py-4 my-auto bg-primary backdrop-blur-sm">
+        <div className="grid items-start  grid-cols-1 overflow-hidden shadow-2xl rounded-3xl xl:gap-4 backdrop-blur-lg shadow-black lg:grid-cols-2">
+          <div className="flex flex-col justify-between w-full h-[420px] px-8 py-4 my-auto bg-primary backdrop-blur-sm">
             <div className="flex flex-col">
               <h3 className="mb-2 text-3xl font-semibold text-secondary animate-type">
                 Embark on a Virtual Journey to Diverse Historical Worlds
@@ -175,14 +173,10 @@ const NFT: React.FC = () => {
 
           {/* Roman Building Model */}
           <div
-            className="relative w-full h-[500px] lg:h-full  rounded-2xl bg-black bg-opacity-50  "
+            className="relative w-full h-full  rounded-2xl bg-black bg-opacity-50  "
             ref={modelRef2}
           >
-            {isVisible && (
-              <>
-                <GreekBuilding />
-              </>
-            )}
+            {isVisible && <GreekBuilding />}
           </div>
         </div>
       </div>

@@ -22,6 +22,7 @@ import {
   BiLogInCircle,
 } from 'react-icons/bi'
 import Link from 'next/link'
+import AvatarSkeleton from '../UI/Skeletons/AvatarSkeleton'
 
 const MobileNav: React.FC<Props> = ({
   dispatch,
@@ -112,16 +113,25 @@ const MobileNav: React.FC<Props> = ({
           <Image src={logo} alt="logo" className="w-20 p-2" />
         </div>
         {isLoggedIn ? (
-          <Link href={`/app/profile/${user?._id}`} className="absolute right-0">
-            <div className="relative w-10 h-10 mr-4 overflow-hidden bg-black border-2 rounded-full border-third lg:hidden">
-              <Image
-                fill
-                src={user?.imageUrl || loading}
-                alt={user?.name}
-                className="object-contain scale-[.85] "
-              />
-            </div>
-          </Link>
+          <>
+            {user?.imageUrl ? (
+              <Link
+                href={`/app/profile/${user?._id}`}
+                className="absolute right-0 mr-4"
+              >
+                <div className="relative w-10 h-10 overflow-hidden bg-black border-2 rounded-full border-third lg:hidden">
+                  <Image
+                    fill
+                    src={user?.imageUrl}
+                    alt={user?.name}
+                    className="object-contain scale-[.85] "
+                  />
+                </div>
+              </Link>
+            ) : (
+              <AvatarSkeleton />
+            )}
+          </>
         ) : (
           <>
             <Link href="/auth/login" className="absolute right-0">
@@ -179,20 +189,10 @@ const MobileNav: React.FC<Props> = ({
           {isLoggedIn ? (
             <div
               onClick={() => {
-                signOut()
                 dispatch(logout())
               }}
-              className="flex items-center px-1 py-1 border-2 rounded-full w-52 border-secondary group hover:bg-secondary"
+              className="flex items-center px-1 py-1 border-2 rounded-full w-max border-secondary group hover:bg-secondary"
             >
-              <div className="relative w-10 h-10 overflow-hidden bg-black border-2 rounded-full border-secondary">
-                <Image
-                  fill
-                  src={user?.imageUrl || loading}
-                  alt="profile img"
-                  className="object-contain scale-[.85] "
-                />
-              </div>
-
               <div className="flex flex-col items-center mx-2">
                 <div className="flex items-center justify-center ">
                   <button

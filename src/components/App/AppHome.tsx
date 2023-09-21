@@ -20,7 +20,7 @@ interface Props {
 const AppHome: React.FC<Props> = (props) => {
   // Redux hooks for state and dispatch
   const posts = useSelector((state: any) => state.userPost.posts)
-  const loadingPostsStatus = useSelector((state: any) => state.userPost.status)
+  const status = useSelector((state: any) => state.userPost.status)
 
   const dispatch = useDispatch()
   const auth = useSelector((state: RootState) => state.auth)
@@ -28,7 +28,7 @@ const AppHome: React.FC<Props> = (props) => {
 
   // Filter and unique posts based on the author ID
   const filteredPosts = Array.from(
-    new Map(posts.map((post) => [post['_id'], post])).values(),
+    new Map(posts.map((post) => [post['_id'], post])).values()
   ).reverse()
 
   // Fetch user posts on component mount
@@ -37,8 +37,8 @@ const AppHome: React.FC<Props> = (props) => {
   }, [dispatch])
 
   return (
-    <div className="flex items-start justify-start h-full py-20 bg-cover md:pt-0 bg-blackBG">
-      <div className="flex flex-col justify-start">
+    <div className="flex   items-start justify-center h-full py-20 bg-cover md:pt-0 bg-blackBG">
+      <div className="flex md:w-full	 flex-col justify-start w-screen">
         {isLoggedIn ? (
           <div className=" md:border-x border-grayBorder">
             <div className="h-[53px] flex justify-center items-center pb-4">
@@ -61,10 +61,7 @@ const AppHome: React.FC<Props> = (props) => {
         )}
         {isLoggedIn && <PostForm isLoggedIn={isLoggedIn} />}
 
-        <Posts
-          filteredPosts={filteredPosts}
-          loadingPostsStatus={loadingPostsStatus}
-        />
+        <Posts filteredPosts={filteredPosts} status={status} />
       </div>
     </div>
   )

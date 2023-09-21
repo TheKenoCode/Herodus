@@ -18,6 +18,8 @@ import {
   BiLogOutCircle,
   BiLogInCircle,
 } from 'react-icons/bi'
+import SideBarAvatarSkeleton from '../UI/Skeletons/SideBarAvatarSkeleton'
+import AvatarSkeleton from '../UI/Skeletons/AvatarSkeleton'
 
 const SideBar: React.FC<Props> = ({
   dispatch,
@@ -132,47 +134,56 @@ const SideBar: React.FC<Props> = ({
       <div className="px-4 pb-6 ">
         {isLoggedIn ? (
           // Render logout button if user is logged in
-          <>
-            <div
-              onClick={() => {
-                // signOut()
-                dispatch(logout())
-              }}
-              className="items-center hidden w-full px-1 py-1 border-2 rounded-full cursor-pointer lg:flex border-secondary group hover:bg-secondary"
-            >
-              <div className="flex items-center justify-center ">
-                <button
-                  className={`flex flex-col items-center justify-between w-10 p-1 text-secondary group-hover:text-white transition-all duration-300 ease-in-out rounded-full  `}
-                >
-                  <BiLogOutCircle className="text-3xl " />
-                </button>
-                <span className="hidden my-auto mr-2 text-xl text-white transition-all duration-500 ease-in-out cursor-pointer lg:block">
-                  Logout
-                </span>
-              </div>
-            </div>
 
-            <Link
-              href={`/app/profile/${user?._id}`}
-              className="items-center hidden w-full px-1 py-1 mt-2 rounded-full lg:flex group bg-secondary"
-            >
-              <div className="relative w-10 h-10 overflow-hidden bg-black rounded-full ">
-                <Image
-                  fill
-                  src={user?.imageUrl || loading}
-                  alt={user?.name}
-                  className="object-contain scale-[.85] "
-                />
-              </div>
-              <div className="flex items-center justify-center ">
-                <span className="hidden my-auto ml-2 mr-2 text-base text-white transition-all duration-500 ease-in-out cursor-pointer lg:block">
-                  @{user?.name}
-                </span>
-              </div>
-            </Link>
+          <>
+            {user?.imageUrl ? (
+              <>
+                <div
+                  onClick={() => {
+                    // signOut()
+                    dispatch(logout())
+                  }}
+                  className="items-center hidden w-full px-1 py-1 border-2 rounded-full cursor-pointer lg:flex border-secondary group hover:bg-secondary"
+                >
+                  <div className="flex items-center justify-center ">
+                    <button
+                      className={`flex flex-col items-center justify-between w-10 p-1 text-secondary group-hover:text-white transition-all duration-300 ease-in-out rounded-full  `}
+                    >
+                      <BiLogOutCircle className="text-3xl " />
+                    </button>
+                    <span className="hidden my-auto mr-2 text-xl text-white transition-all duration-500 ease-in-out cursor-pointer lg:block">
+                      Logout
+                    </span>
+                  </div>
+                </div>
+
+                <Link
+                  href={`/app/profile/${user?._id}`}
+                  className="items-center hidden w-full px-1 py-1 mt-2 rounded-full lg:flex group bg-secondary"
+                >
+                  <div className="relative w-10 h-10 overflow-hidden bg-black rounded-full ">
+                    <Image
+                      fill
+                      src={user?.imageUrl}
+                      alt={user?.name}
+                      className="object-contain scale-[.85] "
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-center ">
+                    <span className="hidden my-auto ml-2 mr-2 text-base text-white transition-all duration-500 ease-in-out cursor-pointer lg:block">
+                      @{user?.name}
+                    </span>
+                  </div>
+                </Link>
+              </>
+            ) : (
+              <SideBarAvatarSkeleton />
+            )}
           </>
         ) : (
           // Render login button if user is not logged in
+
           <Link
             href="/auth/login"
             className="items-center hidden w-full px-1 py-1 border-2 rounded-full lg:flex border-third group hover:bg-third"
@@ -189,14 +200,18 @@ const SideBar: React.FC<Props> = ({
             </div>
           </Link>
         )}
-        <div className="relative w-10 h-10 overflow-hidden bg-black border-2 rounded-full border-secondary lg:hidden">
-          <Image
-            fill
-            src={user?.imageUrl || loading}
-            alt={user?.name}
-            className="object-contain scale-[.85] "
-          />
-        </div>
+        {user?.imageUrl ? (
+          <div className="relative w-10 h-10 overflow-hidden bg-black border-2 rounded-full border-secondary lg:hidden">
+            <Image
+              fill
+              src={user?.imageUrl || loading}
+              alt={user?.name}
+              className="object-contain scale-[.85] "
+            />
+          </div>
+        ) : (
+          <AvatarSkeleton />
+        )}
       </div>
     </div>
   )

@@ -59,9 +59,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children, params }) => {
       />
 
       {/* Main content area */}
-      <div className="p-0 m-0 md:border-x min-w-min border-grayBorder">
-        {children}
-      </div>
+      <div className=" md:border-x  border-grayBorder">{children}</div>
 
       {/* Mobile app bar */}
       <MobileAppBar router={router} pathname={pathname} user={user} />

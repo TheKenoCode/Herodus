@@ -20,11 +20,9 @@ import ProfilePostForm from '@/components/UserProfile/ProfilePostForm'
 
 const UserProfile: NextPage<UserProfileProps> = () => {
   const posts = useSelector((state: RootState) => state.userPost.posts)
-  const loadingPostsStatus = useSelector(
-    (state: RootState) => state.userPost.status,
-  )
+  const status = useSelector((state: RootState) => state.userPost.status)
   const userId = useSelector((state: RootState) => state.auth?.user?.id)
-  const { status, data: session } = useSession()
+  const { data: session } = useSession()
   const dispatch = useDispatch()
   const { id } = useParams()
   const users = useSelector((state: any) => state.user.allUsers)
@@ -35,12 +33,12 @@ const UserProfile: NextPage<UserProfileProps> = () => {
     new Map(
       posts
         .filter((post) => post.author._id === id)
-        .map((post) => [post['_id'], post]),
-    ).values(),
+        .map((post) => [post['_id'], post])
+    ).values()
   ).reverse()
 
   const isLoggedIn = useSelector(
-    (state: RootState) => state.auth?.isAuthenticated,
+    (state: RootState) => state.auth?.isAuthenticated
   )
 
   // Fetch user posts and all users on component mount
@@ -62,10 +60,7 @@ const UserProfile: NextPage<UserProfileProps> = () => {
 
         <ProfilePostForm id={id} />
 
-        <Posts
-          filteredPosts={filteredPosts}
-          loadingPostsStatus={loadingPostsStatus}
-        />
+        <Posts filteredPosts={filteredPosts} status={status} />
       </div>
     </div>
   )

@@ -23,7 +23,7 @@ const LatestBlogPost: React.FC = () => {
     new Map(posts.map((post) => [post['_id'], post])).values()
   )
   return (
-    <section className="container flex flex-col items-center justify-center h-screen px-4 py-40 mx-auto">
+    <section className="container flex flex-col items-center justify-center h-full px-4 py-40 mx-auto">
       <h1 className="mb-4 text-4xl tracking-widest text-center text-secondary font-Chakra">
         Blog
       </h1>

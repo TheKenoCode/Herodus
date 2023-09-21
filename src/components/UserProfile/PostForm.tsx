@@ -117,7 +117,7 @@ const PostForm: React.FC = ({ isLoggedIn }) => {
   return (
     <div
       div
-      className="border-b z-40 bg-blackBG  md:border-x border-grayBorder  min-h-full md:w-[600px]    transition-all transform duration-300 ease-in-out"
+      className="border-b z-40 bg-blackBG  md:border-x border-grayBorder  min-h-full w-full md:w-[600px]    transition-all transform duration-300 ease-in-out"
     >
       <div
         className={`pt-2 max-w-2xl mx-auto px-4 transform origin-top ease-in-out transition-all duration-500 

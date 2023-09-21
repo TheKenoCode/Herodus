@@ -23,6 +23,9 @@ import { MdVerified } from 'react-icons/md'
 import userCoverPhoto from '@/public/assets/blogcardimage.jpg'
 import ReactHashtag from 'react-hashtag'
 import loading from '@/public/assets/Ripple-1s-200px.gif'
+import CoverImageSkeleton from '../UI/Skeletons/CoverImageSkeleton'
+import ProfileImageSkeleton from '../UI/Skeletons/ProfileImageSkeleton'
+import ProfileInfo from '../UI/Skeletons/ProfileInfo'
 
 // Main UserCard component
 const UserCard: React.FC<Props> = ({
@@ -65,14 +68,18 @@ const UserCard: React.FC<Props> = ({
 
   return (
     <div className="flex mx-auto flex-col w-screen md:w-[600px]    justify-center  col-span-3 row-span-1   bg-blackBG md:border-x border-grayBorder xl:col-span-2  ">
-      <div className="relative h-[200px] ">
-        <Image
-          fill
-          src={user?.coverImage}
-          alt="cover photo"
-          className="object-contain "
-        />
-      </div>
+      {user?.coverImage ? (
+        <div className="relative h-[200px] ">
+          <Image
+            fill
+            src={user?.coverImage}
+            alt="cover photo"
+            className="object-cover "
+          />
+        </div>
+      ) : (
+        <CoverImageSkeleton />
+      )}
 
       <div className="relative flex flex-col px-4">
         {/* buttons */}
@@ -94,85 +101,97 @@ const UserCard: React.FC<Props> = ({
 
         {/* UserInfo */}
         <div className="absolute overflow-hidden -top-[50px] sm:-top-[70px] w-[100px] h-[100px]  sm:w-[134px] sm:h-[134px] border-4 border-black rounded-full bg-black">
-          <Image
-            fill
-            src={user?.imageUrl || loading}
-            alt={user?.name || 'user profile picture'}
-            className="object-contain scale-[.75] "
-          />
+          {user?.imageUrl ? (
+            <Image
+              fill
+              src={user?.imageUrl}
+              alt={user?.name || 'user profile picture'}
+              className="object-contain scale-[.75] "
+            />
+          ) : (
+            <ProfileImageSkeleton />
+          )}
         </div>
-        <div className="mt-4 md:mt-8 text-start">
-          <div className="flex items-center w-min">
-            <h2 className="mx-auto mr-1 text-xl font-bold text-white">
-              {user?.name}
-            </h2>
-            {user?.role === 'admin' && (
-              <MdVerified className="mt-1 text-2xl text-third" />
+        {user ? (
+          <>
+            <div className="mt-4 md:mt-8 text-start">
+              <div className="flex items-center w-min">
+                <h2 className="mx-auto mr-1 text-xl font-bold text-white">
+                  {user?.name}
+                </h2>
+                {user?.role === 'admin' && (
+                  <MdVerified className="mt-1 text-2xl text-third" />
+                )}
+              </div>
+              <h2 className="mx-auto text-base text-gray-500">@{user?.name}</h2>
+            </div>
+
+            {/* bio */}
+            {user?.bio && (
+              <p className="mt-4 text-sm text-gray-100 text-start">
+                <ReactHashtag>{user?.bio}</ReactHashtag>
+              </p>
             )}
-          </div>
-          <h2 className="mx-auto text-base text-gray-500">@{user?.name}</h2>
-        </div>
 
-        {/* bio */}
-        {user?.bio && (
-          <p className="mt-4 text-sm text-gray-100 text-start">
-            <ReactHashtag>{user?.bio}</ReactHashtag>
-          </p>
+            {/* location and link */}
+            <div className="flex flex-col w-full mt-2">
+              <div className="flex w-full mt-2">
+                <div className="flex items-center justify-center">
+                  <BiLocationPlus className="text-xl text-gray-500" />
+                  <span className="ml-1 text-base text-gray-500">
+                    {user?.location}
+                  </span>
+                </div>
+                <div className="flex items-center justify-center ml-4">
+                  <BiLink className="text-xl text-gray-500" />
+                  <a
+                    href={`https://${user?.userLink}`}
+                    className="ml-1 text-base text-secondary"
+                  >
+                    {user?.userLink}
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex w-full mt-2">
+                <div className="flex items-center justify-center">
+                  <BiDna className="text-xl text-gray-500" />
+                  <span className="flex items-center ml-1 text-base text-secondary">
+                    <span className="mr-2 text-gray-500">YDNA</span>{' '}
+                    {user?.YHaplogroup}
+                  </span>
+                </div>
+                <div className="flex items-center justify-center ml-4">
+                  <BiDna className="text-xl text-gray-500" />
+                  <span className="flex items-center ml-1 text-base text-secondary">
+                    <span className="mr-2 text-gray-500">MtDNA</span>
+                    {user?.MtHaplogroup}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* followers, flowing and num of posts */}
+            <div className="flex items-center justify-start mt-2">
+              <div className="flex items-center justify-center">
+                <span className="text-white text-md">0</span>
+                <span className="ml-1 text-base text-gray-500">Following</span>
+              </div>
+              <div className="flex items-center justify-center ml-4">
+                <span className="text-white text-md">0</span>
+                <span className="ml-1 text-base text-gray-500">Followers</span>
+              </div>
+              <div className="flex items-center justify-center ml-4">
+                <span className="text-white text-md">
+                  {filteredPosts.length}
+                </span>
+                <span className="ml-1 text-base text-gray-500">Posts</span>
+              </div>
+            </div>
+          </>
+        ) : (
+          <ProfileInfo />
         )}
-
-        {/* location and link */}
-        <div className="flex flex-col w-full mt-2">
-          <div className="flex w-full mt-2">
-            <div className="flex items-center justify-center">
-              <BiLocationPlus className="text-xl text-gray-500" />
-              <span className="ml-1 text-base text-gray-500">
-                {user?.location}
-              </span>
-            </div>
-            <div className="flex items-center justify-center ml-4">
-              <BiLink className="text-xl text-gray-500" />
-              <a
-                href={`https://${user?.userLink}`}
-                className="ml-1 text-base text-secondary"
-              >
-                {user?.userLink}
-              </a>
-            </div>
-          </div>
-
-          <div className="flex w-full mt-2">
-            <div className="flex items-center justify-center">
-              <BiDna className="text-xl text-gray-500" />
-              <span className="flex items-center ml-1 text-base text-secondary">
-                <span className="mr-2 text-gray-500">YDNA</span>{' '}
-                {user?.YHaplogroup}
-              </span>
-            </div>
-            <div className="flex items-center justify-center ml-4">
-              <BiDna className="text-xl text-gray-500" />
-              <span className="flex items-center ml-1 text-base text-secondary">
-                <span className="mr-2 text-gray-500">MtDNA</span>
-                {user?.MtHaplogroup}
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* followers, flowing and num of posts */}
-        <div className="flex items-center justify-start mt-2">
-          <div className="flex items-center justify-center">
-            <span className="text-white text-md">0</span>
-            <span className="ml-1 text-base text-gray-500">Following</span>
-          </div>
-          <div className="flex items-center justify-center ml-4">
-            <span className="text-white text-md">0</span>
-            <span className="ml-1 text-base text-gray-500">Followers</span>
-          </div>
-          <div className="flex items-center justify-center ml-4">
-            <span className="text-white text-md">{filteredPosts.length}</span>
-            <span className="ml-1 text-base text-gray-500">Posts</span>
-          </div>
-        </div>
       </div>
     </div>
   )

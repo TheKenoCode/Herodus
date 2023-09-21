@@ -60,19 +60,16 @@ const Login: React.FC<Props> = (props) => {
   }
 
   return (
-    <div className="pt-10 text-white bg-center bg-no-repeat bg-cover mt bg-home-hero-bg">
-      <section>
-        <div className="flex-row-reverse lg:flex">
-          <div className="flex flex-col items-center justify-center w-full h-full p-5 my-auto">
-            <form
-              className="flex w-full flex-col justify-between md:w-[500px] p-5 m-auto"
-              onSubmit={handleSubmit(onSubmit)}
-            >
-              <h1 className="my-10 text-xl text-center md:text-3xl">
-                Login, we've missed you!
-              </h1>
+    <section className="pt-28 pb-24 text-white  flex items-center justify-center bg-center bg-no-repeat bg-cover  bg-home-hero-bg">
+      <form
+        className="flex w-full flex-col justify-between md:w-[500px] p-5 m-auto"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <h1 className="my-10 text-xl text-center md:text-3xl">
+          Login, we've missed you!
+        </h1>
 
-              {/* <button
+        {/* <button
                 onClick={() => signIn('google')}
                 className="flex items-center gap-4 pl-3 mx-auto mt-10 bg-white rounded-full shadow-xl"
               >
@@ -82,32 +79,29 @@ const Login: React.FC<Props> = (props) => {
                 </span>
               </button> */}
 
-              <label className="mb-2 text-xl">Email</label>
-              <input
-                type="email"
-                className="h-10 pl-4 mb-5 text-black rounded-full focus:outline-secondary"
-                {...register('user_email', { required: true })}
-              />
-              {errors.user_email && <p>Email is required</p>}
+        <label className="mb-2 text-xl">Email</label>
+        <input
+          type="email"
+          className="h-10 pl-4 mb-5 text-black rounded-full focus:outline-secondary"
+          {...register('user_email', { required: true })}
+        />
+        {errors.user_email && <p>Email is required</p>}
 
-              <label className="mb-2 text-xl">Password</label>
-              <input
-                type="password"
-                className="h-10 pl-4 mb-5 text-black rounded-full focus:outline-secondary"
-                {...register('user_password', { required: true })}
-              />
-              {errors.user_password && <p>Password is required</p>}
+        <label className="mb-2 text-xl">Password</label>
+        <input
+          type="password"
+          className="h-10 pl-4 mb-5 text-black rounded-full focus:outline-secondary"
+          {...register('user_password', { required: true })}
+        />
+        {errors.user_password && <p>Password is required</p>}
 
-              <input
-                className="w-40 py-2 m-auto mt-10 font-bold uppercase transition duration-500 border-2 border-third hover:bg-third hover:scale-110 ease"
-                type="submit"
-                value="Login"
-              />
-            </form>
-          </div>
-        </div>
-      </section>
-    </div>
+        <input
+          className="w-40 py-2 m-auto mt-10 cursor-pointer font-bold uppercase transition duration-500 border-2 border-third hover:bg-third hover:scale-110 ease rounded-full"
+          type="submit"
+          value="Login"
+        />
+      </form>
+    </section>
   )
 }
 
