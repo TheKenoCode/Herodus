@@ -1,15 +1,22 @@
-import jwt from 'jsonwebtoken'
+import jwt, { JwtPayload } from 'jsonwebtoken';
 
 export const isJwtExpired = (token: string): boolean => {
   try {
-    const decodedToken: any = jwt.decode(token)
-    if (!decodedToken) return true
+    const decodedToken: string | JwtPayload | null = jwt.decode(token);
+    if (!decodedToken) return true;
 
-    const currentTime = Date.now() / 1000
+    const currentTime = Date.now() / 1000;
 
-    // If the expiration time is before the current time, then it's expired
-    return decodedToken.exp < currentTime
+    // If decodedToken is of type JwtPayload, check its expiration
+    if (
+      typeof decodedToken !== 'string' &&
+      'exp' in decodedToken &&
+      decodedToken.exp
+    ) {
+      return decodedToken.exp < currentTime;
+    }
+    return true;
   } catch (error) {
-    return true
+    return true;
   }
-}
+};

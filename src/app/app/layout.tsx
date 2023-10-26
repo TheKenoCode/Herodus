@@ -1,73 +1,81 @@
 // React client directive
-'use client'
-import { useEffect } from 'react'
-
-// Component imports
-import SideBar from '@/components/userLayout/SideBar'
-import MobileNav from '@/components/userLayout/MobileNav'
-import MobileAppBar from '@/components/userLayout/MobileAppBar'
-import Widgets from '@/components/userLayout/widgets'
-
+'use client';
 // Next.js and Redux imports
-import { usePathname, useRouter } from 'next/navigation'
-import { useSelector, useDispatch } from 'react-redux'
-import { signIn, signOut, useSession } from 'next-auth/react'
-import { RootState } from '@/lib/redux/store'
-import { fetchAllUsers } from '@/lib/redux/slices/userSlice'
+import { usePathname, useParams } from 'next/navigation';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { fetchAllUsers, fetchUserById } from '@/lib/redux/slices/userSlice';
+import { RootState } from '@/lib/redux/store';
+import { AppDispatch } from '@/lib/redux/store';
+
+import MobileAppBar from '@/components/App/userLayout/MobileAppBar';
+import MobileNav from '@/components/App/userLayout/MobileNav';
+// Component imports
+import SideBar from '@/components/App/userLayout/SideBar';
+import Widgets from '@/components/App/userLayout/Widgets';
+import WidgetsProfile from '@/components/App/userLayout/WidgetsProfile';
 interface AppLayoutProps {
-  children: React.ReactNode
-  params: {
-    id: string
-  }
+  children: React.ReactNode;
+}
+interface User {
+  _id: string;
+  name: string;
+  email: string;
+  followers: string[];
+  following: string[];
+  bio: string;
+  location: string;
+  userLink: string;
+  playlistLink: string;
+  imageUrl: string;
+  coverImage: string;
+  YHaplogroup: string;
+  MtHaplogroup: string;
+  createdAt: string;
 }
 
-const AppLayout: React.FC<AppLayoutProps> = ({ children, params }) => {
+export default function AppLayout({ children }: AppLayoutProps) {
   // Redux state selectors
-  const auth = useSelector((state: RootState) => state.auth) as AuthState
-  const userId = auth?.user?.id
-  const users = useSelector((state: any) => state.user.allUsers)
-  const user = users.find((u: any) => u._id === userId)
-  const isLoggedIn = auth?.isAuthenticated
+  const auth = useSelector((state: RootState) => state.auth);
+  const userId = auth?.user?._id;
+  const users = useSelector((state: RootState) => state.user.allUsers);
+  const user = users.find((u: User) => u._id === userId);
+  const currentProfileUser = useSelector(
+    (state: RootState) => state?.user?.currentUser,
+  );
+  const authUser = useSelector((state: RootState) => state?.auth?.user);
+
+  const isLoggedIn = auth?.isAuthenticated;
 
   // Next.js hooks
-  const { status, data: session } = useSession()
-  const dispatch = useDispatch()
-  const pathname = usePathname()
-  const router = useRouter()
+  const dispatch = useDispatch<AppDispatch>();
+  const pathname = usePathname();
+  const { id } = useParams();
   useEffect(() => {
-    // Fetch all users when the component mounts.
-    dispatch(fetchAllUsers())
-  }, [dispatch])
+    dispatch(fetchUserById(id));
+    dispatch(fetchAllUsers());
+  }, [dispatch]);
   return (
-    <section className="justify-center w-full h-auto md:flex md:h-auto bg-blackBG">
+    <section className='justify-center gap-8 w-full h-auto md:flex md:h-auto bg-blackBG'>
       {/* Sidebar with navigation links */}
-      <SideBar
-        dispatch={dispatch}
-        isLoggedIn={isLoggedIn}
-        user={user}
-        router={router}
-      />
+      <SideBar isLoggedIn={isLoggedIn} user={user} pathname={pathname} />
 
       {/* Mobile navigation component */}
-      <MobileNav
-        dispatch={dispatch}
-        router={router}
-        pathname={pathname}
-        isLoggedIn={isLoggedIn}
-        user={user}
-      />
+      <MobileNav pathname={pathname} isLoggedIn={isLoggedIn} user={user} />
 
       {/* Main content area */}
-      <div className=" md:border-x  border-grayBorder">{children}</div>
+      <div className=' md:border-x border-grayBorder'>{children}</div>
 
       {/* Mobile app bar */}
-      <MobileAppBar router={router} pathname={pathname} user={user} />
+      <MobileAppBar pathname={pathname} />
 
       {/* Additional widgets or functionalities */}
-      <Widgets />
+      {id != authUser?._id && pathname === `/app/profile/${id}` ? (
+        <WidgetsProfile user={currentProfileUser} />
+      ) : (
+        <>{authUser && <Widgets user={authUser} />}</>
+      )}
     </section>
-  )
+  );
 }
-
-export default AppLayout

@@ -1,67 +1,54 @@
-'use client'
+'use client';
 
 // React and Next.js imports
-import React from 'react'
-import { useRouter } from 'next/navigation'
-import Image from 'next/image'
-
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import React from 'react';
 // Library and utility imports
-import { useForm } from 'react-hook-form'
-import axios from 'axios'
-import { signIn } from 'next-auth/react'
+import { useForm } from 'react-hook-form';
 
 // Assets
-import googleLogo from '@/public/assets/google.png'
-import heroCard from '@/public/assets/herocard.png'
-
-interface Props {
-  // Define props here if needed
-}
 
 interface FormInput {
-  name: string
-  email: string
-  password: string
-  confirmPassword: string
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
 }
 
-const Register: React.FC<Props> = (props) => {
-  const router = useRouter()
+export default function Register() {
+  const router = useRouter();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormInput>()
+  const { register, handleSubmit } = useForm<FormInput>();
 
   const onSubmit = (data: FormInput) => {
     // Check if passwords match
     if (data.password !== data.confirmPassword) {
-      alert('Passwords do not match')
-      return
+      alert('Passwords do not match');
+      return;
     }
 
     // Handle registration
-    handleRegister(data)
-  }
+    handleRegister(data);
+  };
 
   // Function to handle user registration
   const handleRegister = async (data: FormInput) => {
     try {
-      await axios.post(`/api/users`, data)
-      router.push('/login')
+      await axios.post(`/api/users`, data);
+      router.push('/auth/login');
     } catch (error) {
-      console.error(error)
+      console.error(error); // eslint-disable-line
     }
-  }
+  };
 
   return (
-    <section className="bg-center bg-no-repeat bg-cover bg-home-hero-bg text-white pt-28 pb-24">
+    <section className='bg-center bg-no-repeat bg-cover bg-home-hero-bg text-white pt-28 pb-24'>
       <form
-        className="flex   flex-col  justify-between md:w-[500px] p-5 m-auto"
+        className='flex   flex-col  justify-between md:w-[500px] p-5 m-auto'
         onSubmit={handleSubmit(onSubmit)}
       >
-        <h1 className="text-center text-md md:text-2xl">
+        <h1 className='text-center text-md md:text-2xl'>
           Sign up and join historians across the world
         </h1>
 
@@ -78,42 +65,40 @@ const Register: React.FC<Props> = (props) => {
                 </span>
               </button> */}
 
-        <label className="mb-2 text-xl">Name</label>
+        <label className='mb-2 text-xl'>Name</label>
         <input
-          type="name"
-          className="h-10 pl-4 mb-5 text-black rounded-full focus:outline-secondary"
+          type='name'
+          className='h-10 pl-4 mb-5 text-black rounded-full focus:outline-secondary'
           {...register('name', { required: true })}
         />
 
-        <label className="mb-2 text-xl">Email</label>
+        <label className='mb-2 text-xl'>Email</label>
         <input
-          type="email"
-          className="h-10 pl-4 mb-5 text-black rounded-full focus:outline-secondary"
+          type='email'
+          className='h-10 pl-4 mb-5 text-black rounded-full focus:outline-secondary'
           {...register('email', { required: true })}
         />
 
-        <label className="mb-2 text-xl">Password</label>
+        <label className='mb-2 text-xl'>Password</label>
         <input
-          type="password"
-          className="h-10 pl-4 mb-5 text-black rounded-full focus:outline-secondary"
+          type='password'
+          className='h-10 pl-4 mb-5 text-black rounded-full focus:outline-secondary'
           {...register('password', { required: true })}
         />
 
-        <label className="mb-2 text-xl">Confirm Password</label>
+        <label className='mb-2 text-xl'>Confirm Password</label>
         <input
-          type="password"
-          className="h-10 pl-4 mb-5 text-black rounded-full focus:outline-secondary"
+          type='password'
+          className='h-10 pl-4 mb-5 text-black rounded-full focus:outline-secondary'
           {...register('confirmPassword', { required: true })}
         />
 
         <input
-          className="w-40 py-2 m-auto mt-10 cursor-pointer font-bold uppercase transition duration-500 border-2 rounded-full border-secondary hover:bg-secondary hover:scale-110 ease"
-          type="submit"
-          value="Register"
+          className='w-40 py-2 m-auto mt-10 cursor-pointer font-bold uppercase transition duration-500 border-2 rounded-full border-secondary hover:bg-secondary hover:scale-110 ease'
+          type='submit'
+          value='Register'
         />
       </form>
     </section>
-  )
+  );
 }
-
-export default Register

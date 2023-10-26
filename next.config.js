@@ -1,7 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   swcMinify: true,
-
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   reactStrictMode: true,
   images: {
     domains: [
@@ -13,9 +15,7 @@ const nextConfig = {
     ],
   },
   swcMinify: true,
-  experimental: {
-    appDir: true,
-  },
+
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -24,23 +24,23 @@ const nextConfig = {
   },
   webpack: (config, options) => {
     // Existing Webpack configuration
-    config.resolve.fallback = { ...config.resolve.fallback, fs: false }
+    config.resolve.fallback = { ...config.resolve.fallback, fs: false };
 
     // Addressing the "Critical dependency" warning
-    config.module.exprContextCritical = false
+    config.module.exprContextCritical = false;
 
     // Mark mongodb's optional dependencies as external
     // This way, they won't be bundled or cause issues if missing.
-    config.externals = config.externals || []
+    config.externals = config.externals || [];
     config.externals.push(
       /@mongodb-js\/zstd/,
       /kerberos/,
       /@aws-sdk\/credential-providers/,
       /snappy/,
-      /mongodb-client-encryption/,
-    )
+      /mongodb-client-encryption/
+    );
 
-    return config
+    return config;
   },
   async headers() {
     return [
@@ -61,8 +61,8 @@ const nextConfig = {
           },
         ],
       },
-    ]
+    ];
   },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

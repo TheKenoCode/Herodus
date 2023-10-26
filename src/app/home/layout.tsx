@@ -1,23 +1,23 @@
-'use client'
+'use client';
 // components/Layout.tsx
-import React, { useState } from 'react'
-import Navbar from '@/components/Layout/NavBar'
-import Footer from '@/components/Layout/Footer'
+import React from 'react';
+
+import Footer from '@/components/Home/Layout/Footer';
+import Navbar from '@/components/Home/Layout/NavBar';
+import { usePathname } from 'next/navigation';
 
 interface HomeLayoutProps {
-  children: React.ReactNode
-  params: {
-    id: string
-  }
+  children: React.ReactNode;
 }
 
-const HomeLayout: React.FC<HomeLayoutProps> = ({ children, params }) => {
+export default function HomeLayout({ children }: HomeLayoutProps) {
+  const pathname = usePathname();
+  const noLayout = [`/home/nft`];
   return (
     <>
-      <Navbar />
+      {noLayout.includes(pathname) ? null : <Navbar />}
       {children}
-      <Footer />
+      {noLayout.includes(pathname) ? null : <Footer />}
     </>
-  )
+  );
 }
-export default HomeLayout

@@ -1,106 +1,128 @@
 // External and third-party imports
-import type { NextApiRequest } from 'next'
-import { NextResponse, NextRequest } from 'next/server'
-import jwt from 'jsonwebtoken'
-import { UserModel } from '@/lib/models/User'
-import nextConnect from 'next-connect'
-import multer from 'multer'
-// Internal imports and utilities
-import connectDB from '@/lib/connectDB'
-import { UserPostModel } from '@/lib/models/UserPosts'
-import { authenticateJWT } from '@/lib/middleware/authenticateJWT'
-import cloudinary from 'cloudinary'
+import cloudinary from 'cloudinary';
+import { NextRequest, NextResponse } from 'next/server';
 
-export const dynamic = 'force-dynamic'
-const JWT_SECRET = process.env.JWT_SECRET || 'my-secret-key'
+// Internal imports and utilities
+import connectDB from '@/lib/utils/connectDB';
+import { authenticateJWT } from '@/lib/middleware/authenticateJWT';
+import { UserModel } from '@/lib/models/User';
+import { UserPostModel } from '@/lib/models/UserPosts';
+
+export const dynamic = 'force-dynamic';
+interface MyRequest extends NextRequest {
+  user: {
+    userId: string;
+  };
+}
+interface BlobLike {
+  arrayBuffer(): Promise<ArrayBuffer>;
+  type: string;
+  size: number;
+}
 
 cloudinary.v2.config({
   cloud_name: 'dso1bwkac',
   api_key: '455938576159633',
   api_secret: 'KHu3B7qrtymOzlFqB14CvsZm-50',
-})
-interface CreatePostBody {
-  content: string
-}
+});
 
 /**
  * GET handler to fetch all posts.
  */
-export async function GET(req: NextApiRequest): Promise<NextResponse> {
-  await connectDB()
+export async function GET(): Promise<NextResponse> {
+  await connectDB();
 
   try {
-    const posts = await UserPostModel.find({}).populate('author') // This will populate the author's name and email for each post
-    return NextResponse.json(posts)
+    const posts = await UserPostModel.find({}).populate('author');
+    if (!posts) {
+      return NextResponse.json({
+        success: false,
+        message: 'No posts available',
+      });
+    } // This will populate the author's name and email for each post
+    return NextResponse.json(posts);
   } catch (error) {
-    return NextResponse.json({ success: false, message: error.message })
+    if (error instanceof Error) {
+      console.error(error); //eslint-disable-line
+      return NextResponse.json({
+        success: false,
+        message: error.message,
+      });
+    } else {
+      console.error(error); //eslint-disable-line
+      return NextResponse.json({
+        success: false,
+        message: 'An unknown error occurred',
+      });
+    }
   }
 }
 
-const storage = multer.memoryStorage()
-const upload = multer({ storage: storage })
-
-export const uploadSingle = (fieldName: string) => {
-  return (request: any, response: any, next: any) => {
-    upload.single(fieldName)(request, response, (err) => {
-      if (err) {
-        response.status(500).json({ error: err.message })
-        return
-      }
-      next()
-    })
-  }
-}
 /**
  * POST handler to create a new post.
  */
-export async function POST(request: NextRequest): Promise<NextResponse> {
+export async function POST(req: MyRequest): Promise<NextResponse> {
   try {
-    authenticateJWT(request, NextRequest)
+    authenticateJWT(req);
 
-    await connectDB()
-    await uploadSingle('image')(request, {}, async () => {})
+    await connectDB();
 
-    // const { content } = await request.json()
-    const formData = await request.formData()
-    console.log(formData)
+    const formData = await req.formData();
+    console.log(formData); // eslint-disable-line
 
-    const content = formData.get('content')
-    const { user } = request
-    const file = formData.get('image')
+    const content = formData.get('content');
+    const { user } = req;
+    const file = formData.get('image') as BlobLike;
+    console.log(file); // eslint-disable-line
 
-    console.log(file)
-    let imageUrl = ''
-    if (file) {
-      // Convert Blob to Buffer
-      const buffer = Buffer.from(await file.arrayBuffer())
+    let imageUrl;
+    if (file && typeof file === 'object' && file.type && file.size >= 0) {
+      // Assume it's a Blob-like object if it has type and size properties
+      const buffer = Buffer.from(await file.arrayBuffer());
 
       // Convert buffer to data URL
-      const dataUrl = `data:${file.type};base64,${buffer.toString('base64')}`
-      imageUrl = await cloudinary.v2.uploader.upload(dataUrl, {
+      const dataUrl = `data:${file.type};base64,${buffer.toString('base64')}`;
+      const uploadResult = await cloudinary.v2.uploader.upload(dataUrl, {
         folder: '/herodus/userPostPhotos',
-      })
-      console.log(imageUrl.secure_url)
+      });
+      console.log(uploadResult.secure_url); // eslint-disable-line
+      imageUrl = uploadResult.secure_url;
+    } else {
+      console.error('file is not a Blob or File:', file); //eslint-disable-line
     }
 
-    const userFromDb = await UserModel.findOne({ _id: user.userId })
+    const userFromDb = await UserModel.findOne({ _id: user.userId });
     if (!userFromDb) {
-      throw new Error('User not found')
+      return NextResponse.json({
+        success: false,
+        message: 'User not found',
+      });
     }
 
     // Create the post with the imageUrl
     const post = await UserPostModel.create({
       content,
       author: userFromDb,
-      imageUrl: imageUrl.secure_url, // Storing the image URL
-    })
+      imageUrl: imageUrl, // Storing the image URL
+    });
 
     return NextResponse.json(
       { message: 'Post Created', postId: post._id },
       { status: 201 },
-    )
+    );
   } catch (error) {
-    console.error('Error:', error)
-    return NextResponse.json({ success: false, message: error.message })
+    if (error instanceof Error) {
+      console.error(error); //eslint-disable-line
+      return NextResponse.json({
+        success: false,
+        message: error.message,
+      });
+    } else {
+      console.error(error); //eslint-disable-line
+      return NextResponse.json({
+        success: false,
+        message: 'An unknown error occurred',
+      });
+    }
   }
 }

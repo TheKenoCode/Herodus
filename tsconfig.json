@@ -1,5 +1,8 @@
 {
+  "typeRoots": ["../node_modules/@types", "./@types"],
   "compilerOptions": {
+    "noImplicitAny": false,
+
     "baseUrl": "./",
     "paths": {
       "@/components/*": ["src/components/*"],

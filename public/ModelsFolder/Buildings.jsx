@@ -4,11 +4,11 @@ Command: npx gltfjsx@6.2.13 buildings.glb --transform
 Files: buildings.glb [27.4MB] > buildings-transformed.glb [3.9MB] (86%)
 */
 
-import React, { useRef } from 'react'
-import { useGLTF } from '@react-three/drei'
+import React, { useRef } from 'react';
+import { useGLTF } from '@react-three/drei';
 
 export function Model(props) {
-  const { nodes, materials } = useGLTF('/buildings-transformed.glb')
+  const { nodes, materials } = useGLTF('/buildings-transformed.glb');
   return (
     <group {...props} dispose={null}>
       <mesh
@@ -66,7 +66,7 @@ export function Model(props) {
         scale={200.441}
       />
     </group>
-  )
+  );
 }
 
-useGLTF.preload('/buildings-transformed.glb')
+useGLTF.preload('/buildings-transformed.glb');

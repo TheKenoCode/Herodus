@@ -1,26 +1,22 @@
-import { useState, useEffect } from 'react'
-import { useImageSize } from 'react-image-size'
+import { useEffect, useState } from 'react';
+import { useImageSize } from 'react-image-size';
 
-interface Props {
-  // define your props here
+interface ImageProps {
+  imageUrl: string;
 }
 
-const useImageOrientation: React.FC<Props> = ({ imageUrl }) => {
-  const [isLandscape, setIsLandscape] = useState(false)
-  const [dimensions, { loading, error }] = useImageSize(imageUrl)
+export default function useImageOrientation({ imageUrl }: ImageProps) {
+  const [isLandscape, setIsLandscape] = useState(false);
+  const [dimensions, { loading, error }] = useImageSize(imageUrl);
   useEffect(() => {
     if (dimensions) {
       if (dimensions?.width > dimensions?.height) {
-        setIsLandscape(true) // Landscape
-        console.log(true)
+        setIsLandscape(true); // Landscape
       } else {
-        setIsLandscape(false) // Portrait
-        console.log(false)
+        setIsLandscape(false); // Portrait
       }
     }
-  }, [dimensions])
+  }, [dimensions]);
 
-  return [isLandscape, { loading, error }]
+  return [isLandscape, { loading, error }];
 }
-
-export default useImageOrientation

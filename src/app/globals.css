@@ -111,3 +111,12 @@ a {
 .pricing-background {
   clip-path: polygon(0 21%, 100% 0%, 100% 100%, 0 100%);
 }
+.bg-blur-class {
+  filter: blur(150px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.my-quill-editor .ql-toolbar button,
+.my-quill-editor .ql-toolbar select {
+  color: white !important;
+}

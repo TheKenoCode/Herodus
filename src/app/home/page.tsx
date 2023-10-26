@@ -1,29 +1,35 @@
 /** @format */
-'use client'
-import type { NextPage } from 'next'
-import Image from 'next/image'
-import Hero from '@/components/Home/Hero'
-import Features from '@/components/Home/Features'
-import NFT from '@/components/Home/NFT'
-import Pricing from '@/components/Home/Pricing'
-import LatestBlogPost from '@/components/Home/LatestBlogPost'
-import Phone from '@/components/Home/Phone'
-import Video from '@/components/Home/Video'
+'use client';
+import type { NextPage } from 'next';
+
+import Features from '@/components/Home/Features';
+import Hero from '@/components/Home/Hero';
+import LatestBlogPost from '@/components/Home/LatestBlogPost';
+import NFT from '@/components/Home/NFT';
+import Phone from '@/components/Home/Phone';
+import Pricing from '@/components/Home/Pricing';
+import Video from '@/components/Home/Video';
 
 const Home: NextPage = () => {
   return (
-    <>
-      <div className="text-white bg-blackBG">
+    <div className='relative'>
+      <div className='text-white bg-blackBG'>
         <Hero />
+
         <Video />
+
         <Features />
+
         <Phone />
+
         <NFT />
+
         <Pricing />
+
         <LatestBlogPost />
       </div>
-    </>
-  )
-}
+    </div>
+  );
+};
 
-export default Home
+export default Home;

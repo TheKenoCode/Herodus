@@ -1,10 +1,10 @@
 // External and third-party imports
-import NextAuth from 'next-auth/next'
-import GoogleProvider from 'next-auth/providers/google'
+import NextAuth from 'next-auth/next';
+import GoogleProvider from 'next-auth/providers/google';
 
 // Internal imports and utilities
-import connectDB from '@/lib/connectDB'
-import { UserModel } from '@/lib/models/User'
+import connectDB from '@/lib/utils/connectDB';
+import { UserModel } from '@/lib/models/User';
 
 // Configuration options for NextAuth
 const authOptions = {
@@ -19,12 +19,12 @@ const authOptions = {
      * Handle session callback to attach custom user properties.
      */
     async session({ session }) {
-      const email = session.user.email // Extract email from session
-      const sessionUser = await UserModel.findOne({ email })
-      console.log(sessionUser)
-      session.user._id = sessionUser._id
-      session.user.name = sessionUser.name
-      return session
+      const email = session.user.email; // Extract email from session
+      const sessionUser = await UserModel.findOne({ email });
+      console.log(sessionUser); // eslint-disable-line
+      session.user._id = sessionUser._id;
+      session.user.name = sessionUser.name;
+      return session;
     },
 
     /**
@@ -32,12 +32,12 @@ const authOptions = {
      */
     async signIn({ user, account }) {
       if (account.provider === 'google') {
-        const { name, email } = user
+        const { name, email } = user;
 
         try {
-          await connectDB()
+          await connectDB();
 
-          const userExists = await UserModel.findOne({ email })
+          const userExists = await UserModel.findOne({ email });
 
           if (!userExists) {
             const res = await fetch(`/api/users`, {
@@ -49,22 +49,22 @@ const authOptions = {
                 name,
                 email,
               }),
-            })
+            });
 
             if (res.ok) {
-              return user
+              return user;
             }
           }
         } catch (error) {
-          console.error('Error during sign-in:', error)
+          console.error('Error during sign-in:', error); // eslint-disable-line
         }
       }
-      return user
+      return user;
     },
   },
-}
+};
 
 // NextAuth handler
-const handler = NextAuth(authOptions)
+const handler = NextAuth(authOptions);
 
-export { handler as GET, handler as POST }
+export { handler as GET, handler as POST };

@@ -1,85 +1,109 @@
 // External and third-party imports
-import { NextApiRequest } from 'next'
-import { NextResponse } from 'next/server'
-import jwt from 'jsonwebtoken'
+import { NextRequest, NextResponse } from 'next/server';
 
 // Internal imports and utilities
-import connectDB from '@/lib/connectDB'
-import { authenticateJWT } from '@/lib/middleware/authenticateJWT'
-import { UserModel } from '@/lib/models/User'
-import { BlogPostModel } from '@/lib/models/BlogPost'
+import connectDB from '@/lib/utils/connectDB';
+import { authenticateJWT } from '@/lib/middleware/authenticateJWT';
+import { BlogPostModel } from '@/lib/models/BlogPost';
+import { UserModel } from '@/lib/models/User';
 
-export const dynamic = 'force-dynamic'
-
-// Constants
-const JWT_SECRET = process.env.JWT_SECRET || 'my-secret-key'
-
-// Type definitions
-interface CreatePostBody {
-  title: string
-  content: string
-  author: string
+export const dynamic = 'force-dynamic';
+interface MyRequest extends NextRequest {
+  user: {
+    userId: string;
+  };
 }
 
 enum UserRole {
   ADMIN = 'admin',
   USER = 'user',
   EDITOR = 'editor',
-  // Add other roles as needed
 }
-
 // Handlers
 
 /**
  * GET handler to fetch all blog posts.
  */
-export async function GET(req: NextApiRequest): Promise<NextResponse> {
-  await connectDB()
-
+export async function GET(): Promise<NextResponse> {
+  await connectDB();
   try {
-    const posts = await BlogPostModel.find({}).populate('author').exec()
-    return NextResponse.json(posts.map((post) => post.toObject()))
+    const posts = await BlogPostModel.find({}).populate('author').exec();
+    if (!posts) {
+      return NextResponse.json({
+        success: false,
+        message: 'no posts available',
+      });
+    }
+    return NextResponse.json(posts.map((post) => post.toObject()));
   } catch (error) {
-    return NextResponse.json({ success: false, message: error.message })
+    if (error instanceof Error) {
+      console.error(error); //eslint-disable-line
+      return NextResponse.json({
+        success: false,
+        message: error.message,
+      });
+    } else {
+      console.error(error); //eslint-disable-line
+      return NextResponse.json({
+        success: false,
+        message: 'An unknown error occurred',
+      });
+    }
   }
 }
-
 /**
  * POST handler to create a new blog post.
  * Only admins are allowed to create posts.
  */
-export async function POST(req: NextApiRequest): Promise<NextResponse> {
+export async function POST(req: MyRequest): Promise<NextResponse> {
   try {
     // Authenticate the user first
-    authenticateJWT(req, NextResponse)
+    authenticateJWT(req);
 
-    await connectDB()
+    await connectDB();
 
-    const { title, content } = await req.json()
-    const { user } = req
-    console.log('User from JWT:', user)
+    const { title, content } = await req.json();
+    const { user } = req;
+    console.log('User from JWT:', user); // eslint-disable-line
 
-    const userFromDb = await UserModel.findOne({ _id: user.userId })
+    const userFromDb = await UserModel.findOne({ _id: user.userId });
     if (!userFromDb) {
-      throw new Error('User not found')
+      return NextResponse.json({
+        success: false,
+        message: 'User not found',
+      });
     }
 
     // Ensure the user has the admin role
     if (userFromDb.role !== UserRole.ADMIN) {
-      throw new Error('Only admins can create posts')
+      return NextResponse.json({
+        success: false,
+        message: 'Only ADMINS can make blog posts',
+      });
     }
 
-    console.log('userFromDB:', userFromDb)
+    console.log('userFromDB:', userFromDb); // eslint-disable-line
     const post = await BlogPostModel.create({
       title,
       content,
       author: userFromDb,
-    })
+    });
 
-    console.log('Created Post:', post)
-    return NextResponse.json({ message: 'Post Created', post: post })
+    console.log('Created Post:', post); // eslint-disable-line
+    return NextResponse.json({ message: 'Post Created', post: post });
   } catch (error) {
-    console.error('Error:', error)
-    return NextResponse.json({ success: false, message: error.message })
+    if (error instanceof Error) {
+      console.error(error); //eslint-disable-line
+      return NextResponse.json({
+        success: false,
+        message: error.message,
+      });
+    } else {
+      console.error(error); //eslint-disable-line
+      return NextResponse.json({
+        success: false,
+        message: 'An unknown error occurred',
+      });
+    }
   }
 }

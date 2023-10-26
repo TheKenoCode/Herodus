@@ -1,120 +1,159 @@
 // External and third-party imports
-import { UserModel } from '@/lib/models/User'
-import { NextResponse, NextRequest } from 'next/server'
-// Internal imports and utilities
-import connectDB from '@/lib/connectDB'
-import jwt from 'jsonwebtoken'
-
+import cloudinary from 'cloudinary';
 // Additional imports for image uploading
-import multer from 'multer'
-import { authenticateJWT } from '@/lib/middleware/authenticateJWT'
-import cloudinary from 'cloudinary'
-export const dynamic = 'force-dynamic'
-const JWT_SECRET = process.env.JWT_SECRET || 'my-secret-key'
-// Cloudinary configuration (should be moved to a common place if used across multiple routes)
+import { NextRequest, NextResponse } from 'next/server';
+
+// Internal imports and utilities
+import connectDB from '@/lib/utils/connectDB';
+import { authenticateJWT } from '@/lib/middleware/authenticateJWT';
+import { UserModel } from '@/lib/models/User';
+export const dynamic = 'force-dynamic';
+// Cloudinary configuration
 cloudinary.v2.config({
-  cloud_name: 'dso1bwkac',
-  api_key: '455938576159633',
-  api_secret: 'KHu3B7qrtymOzlFqB14CvsZm-50',
-})
-
-const storage = multer.memoryStorage()
-const upload = multer({ storage: storage })
-
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+interface MyRequest extends NextRequest {
+  user: {
+    userId: string;
+  };
+}
+interface BlobLike {
+  arrayBuffer(): Promise<ArrayBuffer>;
+  type: string;
+  size: number;
+}
 /**
  * GET handler to retrieve a user by ID.
  */
-export async function GET(req: NextRequest): Promise<NextResponse> {
-  await connectDB()
+export async function GET(req: MyRequest): Promise<NextResponse> {
+  await connectDB();
 
   // Extract the userId from the URL
-  const userId = req.nextUrl.pathname.split('/').pop()
+  const userId = req.nextUrl.pathname.split('/').pop();
 
   // Validate the userId
   if (!userId) {
     return NextResponse.json(
       { success: false, message: 'User ID is missing' },
       { status: 400 },
-    )
+    );
   }
 
   try {
-    const user = await UserModel.findById(userId)
+    const user = await UserModel.findById(userId).populate({
+      path: 'likedPosts',
+      populate: {
+        path: 'author',
+        select: 'name imageUrl role',
+      },
+    });
 
     if (!user) {
       return NextResponse.json(
         { success: false, message: 'User not found' },
         { status: 404 },
-      )
+      );
     }
 
-    return NextResponse.json(user)
+    return NextResponse.json(user);
   } catch (error) {
-    return NextResponse.json({ success: false, message: error.message })
+    if (error instanceof Error) {
+      console.error(error); //eslint-disable-line
+      return NextResponse.json({
+        success: false,
+        message: error.message,
+      });
+    } else {
+      console.error(error); //eslint-disable-line
+      return NextResponse.json({
+        success: false,
+        message: 'An unknown error occurred',
+      });
+    }
   }
 }
-
 /**
  * PUT handler to update a user by ID.
  */
-export async function PUT(req: NextRequest): Promise<NextResponse> {
+export async function PUT(req: MyRequest): Promise<NextResponse> {
   try {
-    authenticateJWT(req, NextRequest)
+    authenticateJWT(req);
 
-    await connectDB()
-    // await uploadSingle('image')(req, {}, async () => {})
-    const formData = await req.formData()
-    const name = formData.get('name')
-    const bio = formData.get('bio')
-    const coverImage = formData.get('coverImage')
-    const avatarImage = formData.get('avatarImage')
-    const location = formData.get('location')
-    const userLink = formData.get('userLink')
-    const YHaplogroup = formData.get('YHaplogroup')
-    const MtHaplogroup = formData.get('MtHaplogroup')
-    let avatarImageUrl = ''
-    let coverImageUrl = ''
-    const { user } = req
+    await connectDB();
 
-    if (avatarImage) {
+    const formData = await req.formData();
+    const name = formData.get('name');
+    const bio = formData.get('bio');
+    const coverImage = formData.get('coverImage') as BlobLike;
+    const avatarImage = formData.get('avatarImage') as BlobLike;
+    const location = formData.get('location');
+    const userLink = formData.get('userLink');
+    const playlistLink = formData.get('playlistLink');
+    const YHaplogroup = formData.get('YHaplogroup');
+    const MtHaplogroup = formData.get('MtHaplogroup');
+    let avatarImageUrl = '';
+    let coverImageUrl = '';
+    const { user } = req;
+    console.log(playlistLink);
+    if (
+      avatarImage &&
+      typeof avatarImage === 'object' &&
+      avatarImage.type &&
+      avatarImage.size >= 0
+    ) {
       // Convert Blob to Buffer
-      const buffer = Buffer.from(await avatarImage.arrayBuffer())
+      const buffer = Buffer.from(await avatarImage.arrayBuffer());
       // Convert buffer to data URL
       const dataUrl = `data:${avatarImage.type};base64,${buffer.toString(
         'base64',
-      )}`
-      avatarImageUrl = await cloudinary.v2.uploader.upload(dataUrl, {
+      )}`;
+      const uploadResult = await cloudinary.v2.uploader.upload(dataUrl, {
         folder: '/herodus/profilePictures',
-      })
-      console.log(avatarImageUrl.secure_url)
+      });
+      console.log(uploadResult.secure_url); // eslint-disable-line
+      avatarImageUrl = uploadResult.secure_url;
+    } else {
+      console.error('file is not a Blob or File:', avatarImage); // eslint-disable-line
     }
-    if (coverImage) {
+
+    if (
+      coverImage &&
+      typeof coverImage === 'object' &&
+      coverImage.type &&
+      coverImage.size >= 0
+    ) {
       // Convert Blob to Buffer
-      const buffer = Buffer.from(await coverImage.arrayBuffer())
+      const buffer = Buffer.from(await coverImage.arrayBuffer());
       // Convert buffer to data URL
       const dataUrl = `data:${coverImage.type};base64,${buffer.toString(
         'base64',
-      )}`
-      coverImageUrl = await cloudinary.v2.uploader.upload(dataUrl, {
+      )}`;
+      const uploadResult = await cloudinary.v2.uploader.upload(dataUrl, {
         folder: '/herodus/coverPictures',
-      })
-      console.log(coverImageUrl.secure_url)
+      });
+      console.log(uploadResult.secure_url); // eslint-disable-line
+      coverImageUrl = uploadResult.secure_url;
+    } else {
+      console.error('file is not a Blob or File:', coverImage); // eslint-disable-line
     }
 
-    const userFromDb = await UserModel.findOne({ _id: user.userId })
+    const userFromDb = await UserModel.findOne({ _id: user.userId });
     if (!userFromDb) {
-      throw new Error('User not found')
+      throw new Error('User not found');
     }
     const userInfo = {
       name: name || '',
       bio: bio || '',
-      imageUrl: avatarImageUrl.secure_url || userFromDb.imageUrl,
-      coverImage: coverImageUrl.secure_url || userFromDb.coverImage,
+      imageUrl: avatarImageUrl || userFromDb.imageUrl,
+      coverImage: coverImageUrl || userFromDb.coverImage,
       location: location || '',
       userLink: userLink || '',
+      playlistLink: playlistLink || '',
       YHaplogroup: YHaplogroup || '',
       MtHaplogroup: MtHaplogroup || '',
-    }
+    };
 
     const updatedUser = await UserModel.findByIdAndUpdate(
       user.userId,
@@ -122,53 +161,86 @@ export async function PUT(req: NextRequest): Promise<NextResponse> {
       {
         new: true,
       },
-    )
+    );
 
     if (!updatedUser) {
       return NextResponse.json(
         { success: false, message: 'User not found' },
         { status: 404 },
-      )
+      );
     }
 
-    return NextResponse.json(updatedUser)
+    return NextResponse.json(updatedUser);
   } catch (error) {
-    return NextResponse.json({ success: false, message: error.message })
+    if (error instanceof Error) {
+      console.error(error); //eslint-disable-line
+      return NextResponse.json({
+        success: false,
+        message: error.message,
+      });
+    } else {
+      console.error(error); //eslint-disable-line
+      return NextResponse.json({
+        success: false,
+        message: 'An unknown error occurred',
+      });
+    }
   }
 }
 
 /**
  * DELETE handler to delete a user by ID.
  */
-export async function DELETE(req: NextRequest): Promise<NextResponse> {
-  await connectDB()
+export async function DELETE(req: MyRequest): Promise<NextResponse> {
+  await connectDB();
+
+  try {
+    authenticateJWT(req);
+  } catch (error) {
+    return NextResponse.json(
+      { success: false, message: error.message },
+      { status: 401 }, // Unauthorized status code
+    );
+  }
 
   // Extract the userId from the URL
-  const userId = req.nextUrl.pathname.split('/').pop()
+  const userId = req.nextUrl.pathname.split('/').pop();
 
   // Validate the userId
   if (!userId) {
     return NextResponse.json(
       { success: false, message: 'User ID is missing' },
       { status: 400 },
-    )
+    );
   }
 
   try {
-    const deletedUser = await UserModel.findByIdAndRemove(userId)
+    const deletedUser = await UserModel.findByIdAndRemove(userId);
 
     if (!deletedUser) {
       return NextResponse.json(
         { success: false, message: 'User not found' },
         { status: 404 },
-      )
+      );
     }
 
     return NextResponse.json({
       success: true,
       message: 'User deleted successfully',
-    })
+    });
   } catch (error) {
-    return NextResponse.json({ success: false, message: error.message })
+    if (error instanceof Error) {
+      console.error(error); //eslint-disable-line
+      return NextResponse.json({
+        success: false,
+        message: error.message,
+      });
+    } else {
+      console.error(error); //eslint-disable-line
+      return NextResponse.json({
+        success: false,
+        message: 'An unknown error occurred',
+      });
+    }
   }
 }

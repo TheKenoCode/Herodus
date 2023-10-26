@@ -2,10 +2,11 @@
  * TailwindCSS Configuration
  * @type {import('tailwindcss').Config}
  */
-const plugin = require('tailwindcss/plugin')
+const plugin = require('tailwindcss/plugin');
 
 module.exports = {
-  // Specify the files Tailwind should purge
+  mode: 'jit',
+
   content: [
     './src/app/**/*.{js,ts,jsx,tsx}',
     './src/pages/**/*.{js,ts,jsx,tsx}',
@@ -87,6 +88,8 @@ module.exports = {
   },
   // Additional plugins can be added here
   plugins: [
+    // Custom font families
+    require('tailwindcss-animated'),
     plugin(function ({ matchUtilities, theme }) {
       matchUtilities(
         {
@@ -95,7 +98,7 @@ module.exports = {
           }),
         },
         { values: theme('textShadow') },
-      )
+      );
     }),
   ],
-}
+};

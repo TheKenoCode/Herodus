@@ -1,28 +1,48 @@
-'use client'
-import { Canvas, useThree, useFrame } from '@react-three/fiber'
-import { Suspense } from 'react'
-import { useGLTF } from '@react-three/drei'
-import {
-  OrbitControls,
-  Environment,
-  useTexture,
-  PerspectiveCamera,
-} from '@react-three/drei'
-import { useState, useEffect, useRef } from 'react'
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
-import { useLoader } from '@react-three/fiber'
+'use client';
+import { useGLTF } from '@react-three/drei';
+import { Environment, OrbitControls } from '@react-three/drei';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { Suspense } from 'react';
+import { useRef } from 'react';
+import { Group, Mesh, MeshStandardMaterial } from 'three';
+import { GLTF } from 'three-stdlib';
+type GLTFResult = GLTF & {
+  nodes: {
+    defaultMaterial006: Mesh;
+    defaultMaterial002: Mesh;
+    defaultMaterial004: Mesh;
+    defaultMaterial003: Mesh;
+    defaultMaterial: Mesh;
+    defaultMaterial005: Mesh;
+    defaultMaterial007: Mesh;
+    defaultMaterial008: Mesh;
+    defaultMaterial001: Mesh;
+  };
+  materials: {
+    Arch_and_pillars: MeshStandardMaterial;
+    Ballustrade: MeshStandardMaterial;
+    Bath_tub: MeshStandardMaterial;
+    Changing_rooms: MeshStandardMaterial;
+    Ground: MeshStandardMaterial;
+    Roofs: MeshStandardMaterial;
+    Statue_Young_man: MeshStandardMaterial;
+    Statue_old_man: MeshStandardMaterial;
+    Water: MeshStandardMaterial;
+  };
+};
 
-function ModelAsset(props) {
+export function ModelAsset(props: JSX.IntrinsicElements['group']) {
   const { nodes, materials } = useGLTF(
     '/ModelsFolder/buildings-transformed.glb',
-  )
+  ) as GLTFResult;
 
-  const modelRef = useRef()
+  const modelRef = useRef<Group>();
+
   useFrame(() => {
     if (modelRef.current) {
-      modelRef.current.rotation.y += 0.002
+      modelRef.current.rotation.y += 0.002;
     }
-  })
+  });
 
   return (
     <group group ref={modelRef} {...props} dispose={null}>
@@ -62,7 +82,6 @@ function ModelAsset(props) {
         position={[-3.403, -9.277, -33.522]}
         scale={200.441}
       />
-
       <mesh
         geometry={nodes.defaultMaterial007.geometry}
         material={materials.Statue_Young_man}
@@ -82,23 +101,21 @@ function ModelAsset(props) {
         scale={200.441}
       />
     </group>
-  )
+  );
 }
-useGLTF.preload('/ModelsFolder/buildings-transformed.glb')
+useGLTF.preload('/ModelsFolder/buildings-transformed.glb');
 
-const GreekBuilding = ({ height }) => {
+export default function GreekBuilding() {
   return (
     <Canvas style={{ height: '100%', width: '100%' }}>
       <ambientLight intensity={0.5} />
       <directionalLight intensity={0.8} position={[10, 10, 5]} />
       <Suspense fallback={null}>
-        <Environment files="./img/table_mountain_1_1k.hdr" background />
+        <Environment files='./img/table_mountain_1_1k.hdr' background />
 
         <ModelAsset position={[0, -10, 0]} />
       </Suspense>
       <OrbitControls />
     </Canvas>
-  )
+  );
 }
-
-export default GreekBuilding

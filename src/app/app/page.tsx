@@ -1,9 +1,10 @@
 /** @format */
-'use client'
-import type { NextPage } from 'next'
-import AppHome from '@/components/App/AppHome'
-const AppHomePage: NextPage = () => {
-  return <AppHome />
-}
+'use client';
+import type { NextPage } from 'next';
 
-export default AppHomePage
+import AppHome from '@/components/App/AppHome';
+const AppHomePage: NextPage = () => {
+  return <AppHome />;
+};
+
+export default AppHomePage;

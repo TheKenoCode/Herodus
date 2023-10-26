@@ -1,6 +1,6 @@
-import mongoose, { Schema, Document } from 'mongoose'
-import { nanoid } from 'nanoid'
-import mongooseAutoPopulate from 'mongoose-autopopulate'
+import mongoose, { Document, Schema } from 'mongoose';
+import mongooseAutoPopulate from 'mongoose-autopopulate';
+import { nanoid } from 'nanoid';
 
 const BlogPostSchema: Schema = new Schema({
   _id: { type: String, default: () => nanoid(9) },
@@ -8,17 +8,17 @@ const BlogPostSchema: Schema = new Schema({
   content: { type: String, required: true },
   author: { type: String, ref: 'User', autopopulate: true },
   createdAt: { type: Date, default: () => new Date() },
-})
+});
 
-BlogPostSchema.plugin(mongooseAutoPopulate)
+BlogPostSchema.plugin(mongooseAutoPopulate);
 
 export const BlogPostModel =
   mongoose.models.BlogPost ||
   mongoose.model<
     Document & {
-      title: string
-      content: string
-      author: string
-      createdAt: Date
+      title: string;
+      content: string;
+      author: string;
+      createdAt: Date;
     }
-  >('BlogPost', BlogPostSchema)
+  >('BlogPost', BlogPostSchema);

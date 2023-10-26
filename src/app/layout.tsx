@@ -1,50 +1,43 @@
-'use client'
+'use client';
 // components/Layout.tsx
-import React, { useState } from 'react'
-import Navbar from '../components/Layout/NavBar'
-import Footer from '../components/Layout/Footer'
-import { NextAuthProvider } from './Providers'
-import './globals.css'
-import { store, persistor } from '@/lib/redux/store'
-import { PersistGate } from 'redux-persist/integration/react'
-import { Provider } from 'react-redux'
-import ComingSoon from '@/components/ComingSoon'
-import IntroPage from '@/components/IntroPage'
-import { usePathname } from 'next/navigation'
-import TimeAgo from 'javascript-time-ago'
-import en from 'javascript-time-ago/locale/en.json'
-import { useParams } from 'next/navigation'
-import { Roboto } from 'next/font/google'
-import NavBar from '../components/Layout/NavBar'
-import { Analytics } from '@vercel/analytics/react'
-//
-const roboto = Roboto({
-  weight: '400',
+import { Analytics } from '@vercel/analytics/react';
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en.json';
+import { Inter, Roboto_Mono } from 'next/font/google';
+import { usePathname } from 'next/navigation';
+import React, { useState } from 'react';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+
+import './globals.css';
+
+import { persistor, store } from '@/lib/redux/store';
+
+// import IntroPage from '@/components/IntroPage';
+import { NextAuthProvider } from './Providers';
+import Footer from '../components/Home/Layout/Footer';
+import NavBar from '../components/Home/Layout/NavBar';
+const roboto_mono = Roboto_Mono({
   subsets: ['latin'],
+  variable: '--font-roboto-mono',
   display: 'swap',
-})
-TimeAgo.addLocale(en)
-TimeAgo.addDefaultLocale(en)
+});
+TimeAgo.addLocale(en);
+TimeAgo.addDefaultLocale(en);
 
 export default function RootLayout({
   children,
-  params,
 }: {
-  children: React.ReactNode
-  params: {
-    id: string
-  }
+  children: React.ReactNode;
 }) {
-  const { id } = useParams()
-
-  const [underConstruction, setUnderConstruction] = useState(false)
-  const pathname = usePathname()
-  const noLayout = [`/`]
+  const [underConstruction] = useState(false);
+  const pathname = usePathname();
+  const noLayout = [`/`];
 
   return (
-    <html lang="en" className={roboto.className}>
+    <html lang='en' className={` ${roboto_mono.variable}`}>
       <head>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel='icon' href='/favicon.ico' />
         <title>Herodus - History Meets The Future</title>
       </head>
       <body suppressHydrationWarning={true}>
@@ -54,7 +47,7 @@ export default function RootLayout({
               {underConstruction ? (
                 <>
                   {/* <ComingSoon /> */}
-                  <IntroPage setUnderConstruction={setUnderConstruction} />
+                  {/* <IntroPage setUnderConstruction={setUnderConstruction} /> */}
                 </>
               ) : (
                 <>
@@ -69,5 +62,5 @@ export default function RootLayout({
         </Provider>
       </body>
     </html>
-  )
+  );
 }

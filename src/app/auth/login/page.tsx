@@ -1,71 +1,63 @@
-'use client'
+'use client';
 
 // React imports
-import React from 'react'
-
+import axios from 'axios';
 // Next.js imports
-import { useRouter } from 'next/navigation'
-import Image from 'next/image'
-
-// Redux imports
-import { useDispatch } from 'react-redux'
-import { login } from '@/lib/redux/slices/authSlice'
-
+import { useRouter } from 'next/navigation';
+import React from 'react';
 // Other utility and library imports
-import { useForm } from 'react-hook-form'
-import axios from 'axios'
-import { signIn } from 'next-auth/react'
+import { useForm } from 'react-hook-form';
+// Redux imports
+import { useDispatch } from 'react-redux';
+
+import { login } from '@/lib/redux/slices/authSlice';
+import { AppDispatch } from '@/lib/redux/store';
 
 // Assets
-import googleLogo from '@/public/assets/google.png'
-
-interface Props {
-  // Define props here if needed
-}
 
 interface LoginFormInput {
-  user_email: string
-  user_password: string
+  user_email: string;
+  user_password: string;
 }
 
-const Login: React.FC<Props> = (props) => {
-  const dispatch = useDispatch()
-  const router = useRouter()
+export default function Login() {
+  const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginFormInput>()
+  } = useForm<LoginFormInput>();
 
   const onSubmit = async (data: LoginFormInput) => {
     try {
       const response = await axios.post(`/api/users/login`, {
         email: data.user_email,
         password: data.user_password,
-      })
+      });
 
       if (response.data && response.data.token) {
-        localStorage.setItem('authToken', response.data.token)
+        localStorage.setItem('authToken', response.data.token);
         dispatch(
-          login({ token: response.data.token, user: response.data.user })
-        )
-        router.push('/app')
+          login({ token: response.data.token, user: response.data.user }),
+        );
+        router.push('/app');
       } else {
-        console.error('Error logging in:', response.data.message)
+        console.error('Error logging in:', response.data.message); // eslint-disable-line
       }
     } catch (error) {
-      console.error(error)
+      console.error(error); // eslint-disable-line
     }
-  }
+  };
 
   return (
-    <section className="pt-28 pb-24 text-white  flex items-center justify-center bg-center bg-no-repeat bg-cover  bg-home-hero-bg">
+    <section className='flex items-center justify-center pb-24 text-white bg-center bg-no-repeat bg-cover pt-28 bg-home-hero-bg'>
       <form
-        className="flex w-full flex-col justify-between md:w-[500px] p-5 m-auto"
+        className='flex w-full flex-col justify-between md:w-[500px] p-5 m-auto'
         onSubmit={handleSubmit(onSubmit)}
       >
-        <h1 className="my-10 text-xl text-center md:text-3xl">
+        <h1 className='my-10 text-xl text-center md:text-3xl'>
           Login, we've missed you!
         </h1>
 
@@ -79,30 +71,28 @@ const Login: React.FC<Props> = (props) => {
                 </span>
               </button> */}
 
-        <label className="mb-2 text-xl">Email</label>
+        <label className='mb-2 text-xl'>Email</label>
         <input
-          type="email"
-          className="h-10 pl-4 mb-5 text-black rounded-full focus:outline-secondary"
+          type='email'
+          className='h-10 pl-4 mb-5 text-black rounded-full focus:outline-secondary'
           {...register('user_email', { required: true })}
         />
         {errors.user_email && <p>Email is required</p>}
 
-        <label className="mb-2 text-xl">Password</label>
+        <label className='mb-2 text-xl'>Password</label>
         <input
-          type="password"
-          className="h-10 pl-4 mb-5 text-black rounded-full focus:outline-secondary"
+          type='password'
+          className='h-10 pl-4 mb-5 text-black rounded-full focus:outline-secondary'
           {...register('user_password', { required: true })}
         />
         {errors.user_password && <p>Password is required</p>}
 
         <input
-          className="w-40 py-2 m-auto mt-10 cursor-pointer font-bold uppercase transition duration-500 border-2 border-third hover:bg-third hover:scale-110 ease rounded-full"
-          type="submit"
-          value="Login"
+          className='w-40 py-2 m-auto mt-10 font-bold uppercase transition duration-500 border-2 rounded-full cursor-pointer border-third hover:bg-third hover:scale-110 ease'
+          type='submit'
+          value='Login'
         />
       </form>
     </section>
-  )
+  );
 }
-
-export default Login
