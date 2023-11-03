@@ -10,10 +10,9 @@
     Where History Meets the Future!
     <br/>
     <br/>
-    <a href="https://github.com/TheKenoCode/herodus"><strong>Explore the docs »</strong></a>
     <br/>
     <br/>
-    <a href="https://github.com/TheKenoCode/herodus">View Demo</a>
+    <a href="https://Herodus.io">View Demo</a>
     .
     <a href="https://github.com/TheKenoCode/herodus/issues">Report Bug</a>
     .
