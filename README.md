@@ -36,6 +36,7 @@
 ## About The Project
 
 ![Screen Shot](https://i.imgur.com/b6sZNaA.jpg)
+![Screen Shot](https://i.imgur.com/0o9co0B.png)
 
 # Herodus
 
